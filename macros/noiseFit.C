@@ -9,9 +9,9 @@
 
 #include <iostream>
 
-#define NRUNS 10       // binp3:15, binp4:5, binp1:10
+#define NRUNS 4        // binp3:7, binp4:3, binp1:3, binp2:4
 #define NVARIABLES 2
-#define mcp 2          // 0=BNP3, 1=BNP4, 2=BNP1  
+#define mcp 3          // 0=BNP3, 1=BNP4, 2=BNP1, 3=BINP2  
 
 void noiseFit() {
 
@@ -25,48 +25,29 @@ void noiseFit() {
   TString runs[NRUNS];
   TString path[NRUNS];
   if (mcp==0) {
-    runsF[0]=2340;  path[0]="RU1";
-    runsF[1]=2341;  path[1]="RU2"; 
-    runsF[2]=2342;  path[2]="RU2";
+    runsF[0]=2339;  path[0]="RU1";
+    runsF[1]=2340;  path[1]="RU1";
+    runsF[2]=2341;  path[2]="RU2"; 
     runsF[3]=2363;  path[3]="RU4";
     runsF[4]=2364;  path[4]="RU4";
     runsF[5]=2365;  path[5]="RU4";
     runsF[6]=2366;  path[6]="RU4";
-    runsF[7]=2367;  path[7]="RU4";
-    runsF[8]=2368;  path[8]="RU4";
-    runsF[9]=2369;  path[9]="RU4";
-    runsF[10]=2370; path[10]="RU4";
-    runsF[11]=2371; path[11]="RU4";
-    runsF[12]=2547; path[12]="RU6";
-    runsF[13]=2549; path[13]="RU6";
-    runsF[14]=2550; path[14]="RU6";
   }
   if (mcp==1) {
-    runsF[0]=2339;  path[0]="RU1";
-    /*
+    runsF[0]=2339;  path[0]="RU1";    // only good run
     runsF[1]=2341;  path[1]="RU2"; 
-    runsF[2]=2342;  path[2]="RU2";
-    runsF[3]=2343;  path[3]="RU2";
-    runsF[4]=2352;  path[4]="RU3";
-    runsF[5]=2353;  path[5]="RU3";
-    runsF[6]=2354;  path[6]="RU3";
-    */
-    runsF[1]=2378;  path[1]="RU5";
-    runsF[2]=2547;  path[2]="RU6";
-    runsF[3]=2549;  path[3]="RU6";
-    runsF[4]=2550;  path[4]="RU6";
+    runsF[2]=2352;  path[2]="RU3";
   }
   if (mcp==2) {
     runsF[0]=2341;  path[0]="RU2"; 
-    runsF[1]=2342;  path[1]="RU2";
-    runsF[2]=2343;  path[2]="RU2";
-    runsF[3]=2352;  path[3]="RU3";
-    runsF[4]=2353;  path[4]="RU3";
-    runsF[5]=2354;  path[5]="RU3";
-    runsF[6]=2363;  path[6]="RU4";
-    runsF[7]=2364;  path[7]="RU4";
-    runsF[8]=2365;  path[8]="RU4";
-    runsF[9]=2378;  path[9]="RU5";
+    runsF[1]=2352;  path[1]="RU3";
+    runsF[2]=2363;  path[2]="RU4";
+  }
+  if (mcp==3) {
+    runsF[0]=2339;  path[0]="RU1"; 
+    runsF[1]=2340;  path[1]="RU1";
+    runsF[2]=2352;  path[2]="RU3";
+    runsF[3]=2363;  path[3]="RU4";
   }
   for (int ii=0; ii<NRUNS; ii++) runs[ii] = Form("%d",(int)runsF[ii]);
 
@@ -89,6 +70,10 @@ void noiseFit() {
   if (mcp==2) { 
     variables[0]="amp_max[BINP1]";   
     variables[1]="charge_sig[BINP1]";   
+  }
+  if (mcp==3) { 
+    variables[0]="amp_max[BINP2]";   
+    variables[1]="charge_sig[BINP2]";   
   }
 
   int nbins[NVARIABLES];
@@ -192,26 +177,27 @@ void noiseFit() {
   fOut->Close();
 
 
+  // Study of efficiency on 1 particle events, passing mib2 and rm2 selection. Done on selected runs
   cout << endl;
   cout << endl;
   cout << "-------------------------------------------- 1 particle efficiency " << endl;
-  // Study of efficiency on 1 particle events, passing mib2 and rm2 selection 
-  int firstRun = 0;
-  int lastRun  = 0;
+  TFile *fileRefBinp124 = new TFile("btf2016_RU5_2378.root");
+  TFile *fileRefBinp3   = new TFile("btf2016_RU2_2341.root");
+  TTree *TrefBinp;
   TString myMCP;
-  if (mcp==0) { firstRun = 12; lastRun = 14; myMCP= Form("BINP3");}
-  if (mcp==1) { firstRun = 1;  lastRun = 4;  myMCP= Form("BINP4");}
-  if (mcp==2) { firstRun = 9;  lastRun = 9;  myMCP= Form("BINP1");}
-  for (int i=firstRun;i<=lastRun;++i) {
-    TH1F *H_den   = new TH1F("H_den","H_den",    1,-50000,50000);
-    TH1F *H_numAM = new TH1F("H_numAM","H_numAM",1,-50000,50000);
-    TH1F *H_numCS = new TH1F("H_numCS","H_numCS",1,-50000,50000);
-    T1[i]->Project("H_den",  "amp_max["+myMCP+"]","adc_data>200 && adc_data<700 && amp_max[MiB2]>200 && amp_max[Rm2]>200");
-    T1[i]->Project("H_numAM","amp_max["+myMCP+"]","adc_data>200 && adc_data<700 && amp_max[MiB2]>200 && amp_max[Rm2]>200 && amp_max["+myMCP+"]>17.");         // Nsigma = 6.+N*2.2 
-    T1[i]->Project("H_numCS","amp_max["+myMCP+"]","adc_data>200 && adc_data<700 && amp_max[MiB2]>200 && amp_max[Rm2]>200 && charge_sig["+myMCP+"]>197");      // Nsigma = 22+N*35
-    cout << "run " << runs[i] << ": amp_max = " << H_numAM->Integral()/H_den->Integral() << ", charge_sig = " << H_numCS->Integral()/H_den->Integral() << endl;
-    delete H_den;
-    delete H_numAM;
-    delete H_numCS;
-  }
+  if (mcp==0) { TrefBinp = (TTree*)fileRefBinp3->Get("h4");   myMCP= Form("BINP3");}
+  if (mcp==1) { TrefBinp = (TTree*)fileRefBinp124->Get("h4"); myMCP= Form("BINP4");}
+  if (mcp==2) { TrefBinp = (TTree*)fileRefBinp124->Get("h4"); myMCP= Form("BINP1");}
+  if (mcp==3) { TrefBinp = (TTree*)fileRefBinp124->Get("h4"); myMCP= Form("BINP2");}
+  TH1F *H_den   = new TH1F("H_den","H_den",    1,-50000,50000);
+  TH1F *H_numAM = new TH1F("H_numAM","H_numAM",1,-50000,50000);
+  TH1F *H_numCS = new TH1F("H_numCS","H_numCS",1,-50000,50000);
+  TrefBinp->Project("H_den",  "amp_max["+myMCP+"]","adc_data>200 && adc_data<700 && amp_max[MiB2]>200 && amp_max[Rm2]>200 && amp_max[Rm2]<1200");
+  TrefBinp->Project("H_numAM","amp_max["+myMCP+"]","adc_data>200 && adc_data<700 && amp_max[MiB2]>200 && amp_max[Rm2]>200 && amp_max[Rm2]<1200 && amp_max["+myMCP+"]>16.");         
+  TrefBinp->Project("H_numCS","amp_max["+myMCP+"]","adc_data>200 && adc_data<700 && amp_max[MiB2]>200 && amp_max[Rm2]>200 && amp_max[Rm2]<1200 && charge_sig["+myMCP+"]>170");    
+  cout << "amp_max = " << H_numAM->Integral()/H_den->Integral() << ", charge_sig = " << H_numCS->Integral()/H_den->Integral() << endl;
+  delete H_den;
+  delete H_numAM;
+  delete H_numCS;
 }
+
