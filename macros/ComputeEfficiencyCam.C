@@ -15,20 +15,20 @@ void ComputeEfficiencyCam() {
   gStyle->SetOptStat(0);
 
   // inputs
-  TFile* inFileMib10_700  = new TFile("btf2016_HVscanMib10_MID700.root");
-  TFile* inFileMib10_1000 = new TFile("btf2016_HVscanMib10_MID1000.root");
+  TFile* inFileMib10_700  = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/cameroni/btf2016_HVscanMib10_MID700.root");
+  TFile* inFileMib10_1000 = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/cameroni/btf2016_HVscanMib10_MID1000.root");
 
-  TFile* inFileMib25_700  = new TFile("btf2016_HVscanMib25_MID700.root");
-  TFile* inFileMib25_1000 = new TFile("btf2016_HVscanMib25_MID1000.root");
-  TFile* inFileMib25_1200 = new TFile("btf2016_HVscanMib25_MID1200.root");
+  TFile* inFileMib25_700  = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/cameroni/btf2016_HVscanMib25_MID700.root");
+  TFile* inFileMib25_1000 = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/cameroni/btf2016_HVscanMib25_MID1000.root");
+  TFile* inFileMib25_1200 = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/cameroni/btf2016_HVscanMib25_MID1200.root");
 
-  TFile* inFileRm5_700  = new TFile("btf2016_HVscanRm5_MID700.root");
-  TFile* inFileRm5_1000 = new TFile("btf2016_HVscanRm5_MID1000.root");
-  TFile* inFileRm5_1200 = new TFile("btf2016_HVscanRm5_MID1200.root");
+  TFile* inFileRm5_700  = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/cameroni/btf2016_HVscanRm5_MID700.root");
+  TFile* inFileRm5_1000 = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/cameroni/btf2016_HVscanRm5_MID1000.root");
+  TFile* inFileRm5_1200 = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/cameroni/btf2016_HVscanRm5_MID1200.root");
 
-  TFile* inFileRm8_700  = new TFile("btf2016_HVscanRm8_MID700.root");
-  TFile* inFileRm8_1000 = new TFile("btf2016_HVscanRm8_MID1000.root");
-  TFile* inFileRm8_1200 = new TFile("btf2016_HVscanRm8_MID1200.root");
+  TFile* inFileRm8_700  = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/cameroni/btf2016_HVscanRm8_MID700.root");
+  TFile* inFileRm8_1000 = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/cameroni/btf2016_HVscanRm8_MID1000.root");
+  TFile* inFileRm8_1200 = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/cameroni/btf2016_HVscanRm8_MID1200.root");
 
   TTree* h4Mib10_700  = (TTree*)inFileMib10_700->Get("h4");
   TTree* h4Mib10_1000 = (TTree*)inFileMib10_1000->Get("h4");
@@ -303,10 +303,10 @@ void ComputeEfficiencyCam() {
 
 
   // Spectra comparison
-  TH1F *ampRm8  = new TH1F("ampRm8", "ampRm8", 100,0.,4000);
-  TH1F *ampRm5  = new TH1F("ampRm5", "ampRm5", 100,0.,4000);
-  TH1F *ampMi10 = new TH1F("ampMi10","ampMi10",100,0.,4000);
-  TH1F *ampMi25 = new TH1F("ampMi25","ampMi25",100,0.,4000);
+  TH1F *ampRm8  = new TH1F("ampRm8", "ampRm8", 50,0.,4000);
+  TH1F *ampRm5  = new TH1F("ampRm5", "ampRm5", 50,0.,4000);
+  TH1F *ampMi10 = new TH1F("ampMi10","ampMi10",50,0.,4000);
+  TH1F *ampMi25 = new TH1F("ampMi25","ampMi25",50,0.,4000);
   ampRm8  -> SetLineColor(1);
   ampRm5  -> SetLineColor(2);
   ampMi10 -> SetLineColor(3);
@@ -316,10 +316,15 @@ void ComputeEfficiencyCam() {
   ampMi10 -> SetLineWidth(2);
   ampMi25 -> SetLineWidth(2);
 
-  h4Rm8_1000  ->Project("ampRm8", "amp_max[M8]", commonDen1000);
-  h4Rm5_1000  ->Project("ampRm5", "amp_max[M5]", commonDen1000);
-  h4Mib10_1000->Project("ampMi10","amp_max[M10]",commonDen1000);
-  h4Mib25_1000->Project("ampMi25","amp_max[M25]",commonDen1000);
+  /*
+  h4Rm8_1000  ->Project("ampRm8", "amp_max[M8]", commonDen1000+" && HV8==2600");
+  h4Rm5_1000  ->Project("ampRm5", "amp_max[M5]", commonDen1000+" && HV5==2600");
+  h4Mib10_1000->Project("ampMi10","amp_max[M10]",commonDen1000+" && HV10==3400");
+  h4Mib25_1000->Project("ampMi25","amp_max[M25]",commonDen1000+" && HV25==3500");
+  */
+  h4Rm8_1200  ->Project("ampRm8", "amp_max[M8]", commonDen1200+" && HV8==2800");
+  h4Rm5_1200  ->Project("ampRm5", "amp_max[M5]", commonDen1200+" && HV5==2800");
+  h4Mib25_1200->Project("ampMi25","amp_max[M25]",commonDen1200+" && HV25==3600");
 
   TLegend *legAmp;
   legAmp = new TLegend(0.5,0.6,0.9,0.9);
@@ -329,18 +334,23 @@ void ComputeEfficiencyCam() {
   legAmp->SetFillColor(0);
   legAmp->AddEntry(ampRm8,  "Rm8",   "pl");
   legAmp->AddEntry(ampRm5,  "Rm5",   "pl");
-  legAmp->AddEntry(ampMi10, "MiB10", "pl");
+  //legAmp->AddEntry(ampMi10, "MiB10", "pl");
   legAmp->AddEntry(ampMi25, "MiB25", "pl");
 
   TCanvas* c4 = new TCanvas("c4","c",1);
   c4->SetGrid();
-  ampRm8->SetTitle("MID=1000");
-  ampRm5->SetTitle("MID=1000");
-  ampMi10->SetTitle("MID=1000");
-  ampMi25->SetTitle("MID=1000");
+  /*
+    ampRm8->SetTitle("MID=1000");
+    ampRm5->SetTitle("MID=1000");
+    ampMi10->SetTitle("MID=1000");
+    ampMi25->SetTitle("MID=1000");
+  */
+  ampRm8->SetTitle("MID=1200");
+  ampRm5->SetTitle("MID=1200");
+  ampMi25->SetTitle("MID=1200");
   ampRm8->DrawNormalized(); 
   ampRm5->DrawNormalized("same"); 
-  ampMi10->DrawNormalized("same"); 
+  //ampMi10->DrawNormalized("same"); 
   ampMi25->DrawNormalized("same"); 
   legAmp->Draw();
   c4->SetLogy();
