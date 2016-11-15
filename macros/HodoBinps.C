@@ -81,8 +81,8 @@ void HodoBinps() {
   }
 
   // denominator
-  TString commonDen  = "adc_data>200 && adc_data<700 && amp_max[MiB2]>200 && amp_max[Rm2]>200 && amp_max[Rm2]<1200";
-  TString commonDen1 = "adc_data>200 && adc_data<700 && amp_max[MiB2]>200";
+  TString commonDen  = "adc_data>200 && adc_data<700 && amp_max[MiB2]>200 && amp_max[Rm2]>200 && amp_max[Rm2]<1200 && n_hitsX>0 && n_hitsX<3 && n_hitsY>0 && n_hitsY<3";
+  TString commonDen1 = "adc_data>200 && adc_data<700 && amp_max[MiB2]>200 && n_hitsX>0 && n_hitsX<3 && n_hitsY>0 && n_hitsY<3";
 
   float xMeanBinp1[10], xRmsBinp1[10];
   for (int ii=0; ii<10; ii++) {
@@ -305,26 +305,31 @@ void HodoBinps() {
 
 
   // Binp1 HV
-  TString denBinp1Hv = "adc_data>200 && adc_data<700 && run==2363";  
-  TString numBinp1Hv_mib2  = denBinp1Hv + " && amp_max[MiB2]>20";
-  TString numBinp1Hv_binp1 = denBinp1Hv + " && amp_max[BINP1]>20";
+  TString denBinp1Hv_ref   = "adc_data>200 && adc_data<700 && run==2363 && n_hitsX>0 && n_hitsX<3 && n_hitsY>0 && n_hitsY<3";  
+  TString denBinp1Hv_binp  = denBinp1Hv_ref  + " && amp_max[MiB2]>200";
+  TString numBinp1Hv_mib2  = denBinp1Hv_ref  + " && amp_max[MiB2]>20";
+  TString numBinp1Hv_binp1 = denBinp1Hv_binp + " && amp_max[BINP1]>20";
 
-  TH1F *denX_RunBinp1Hv       = new TH1F("denX_RunBinp1Hv",      "denX_RunBinp1Hv",      16,-1.5,30.5);  
-  TH1F *denY_RunBinp1Hv       = new TH1F("denY_RunBinp1Hv",      "denY_RunBinp1Hv",      16,-1.5,30.5);
-  TH1F *numX_Mib2_RunBinp1Hv  = new TH1F("numX_Mib2_RunBinp1Hv", "numX_Mib2_RunBinp1Hv", 16,-1.5,30.5);  
-  TH1F *numY_Mib2_RunBinp1Hv  = new TH1F("numY_Mib2_RunBinp1Hv", "numY_Mib2_RunBinp1Hv", 16,-1.5,30.5);  
-  TH1F *numX_Binp1_RunBinp1Hv = new TH1F("numX_Binp1_RunBinp1Hv","numX_Binp1_RunBinp1Hv",16,-1.5,30.5);  
-  TH1F *numY_Binp1_RunBinp1Hv = new TH1F("numY_Binp1_RunBinp1Hv","numY_Binp1_RunBinp1Hv",16,-1.5,30.5);  
+  TH1F *denX_Mib2_RunBinp1Hv  = new TH1F("denX_Mib2_RunBinp1Hv",  "denX_Mib2_RunBinp1Hv",  16,-1.5,30.5);  
+  TH1F *denY_Mib2_RunBinp1Hv  = new TH1F("denY_Mib2_RunBinp1Hv",  "denY_Mib2_RunBinp1Hv",  16,-1.5,30.5);
+  TH1F *denX_Binp1_RunBinp1Hv = new TH1F("denX_Binp1_RunBinp1Hv", "denX_Binp1_RunBinp1Hv", 16,-1.5,30.5);  
+  TH1F *denY_Binp1_RunBinp1Hv = new TH1F("denY_Binp1_RunBinp1Hv", "denY_Binp1_RunBinp1Hv", 16,-1.5,30.5);
+  TH1F *numX_Mib2_RunBinp1Hv  = new TH1F("numX_Mib2_RunBinp1Hv",  "numX_Mib2_RunBinp1Hv",  16,-1.5,30.5);  
+  TH1F *numY_Mib2_RunBinp1Hv  = new TH1F("numY_Mib2_RunBinp1Hv",  "numY_Mib2_RunBinp1Hv",  16,-1.5,30.5);  
+  TH1F *numX_Binp1_RunBinp1Hv = new TH1F("numX_Binp1_RunBinp1Hv", "numX_Binp1_RunBinp1Hv", 16,-1.5,30.5);  
+  TH1F *numY_Binp1_RunBinp1Hv = new TH1F("numY_Binp1_RunBinp1Hv", "numY_Binp1_RunBinp1Hv", 16,-1.5,30.5);  
 
-  h4Binp1Hv ->Project("denX_RunBinp1Hv",       "X", denBinp1Hv);
-  h4Binp1Hv ->Project("denY_RunBinp1Hv",       "Y", denBinp1Hv);
+  h4Binp1Hv ->Project("denX_Mib2_RunBinp1Hv",  "X", denBinp1Hv_ref);
+  h4Binp1Hv ->Project("denY_Mib2_RunBinp1Hv",  "Y", denBinp1Hv_ref);
+  h4Binp1Hv ->Project("denX_Binp1_RunBinp1Hv", "X", denBinp1Hv_binp);
+  h4Binp1Hv ->Project("denY_Binp1_RunBinp1Hv", "Y", denBinp1Hv_binp);
   h4Binp1Hv ->Project("numX_Mib2_RunBinp1Hv",  "X", numBinp1Hv_mib2);
   h4Binp1Hv ->Project("numY_Mib2_RunBinp1Hv",  "Y", numBinp1Hv_mib2);
   h4Binp1Hv ->Project("numX_Binp1_RunBinp1Hv", "X", numBinp1Hv_binp1);
   h4Binp1Hv ->Project("numY_Binp1_RunBinp1Hv", "Y", numBinp1Hv_binp1);
 
-  TGraphAsymmErrors* effX_Mib2_RunBinp1Hv = new TGraphAsymmErrors(numX_Mib2_RunBinp1Hv, denX_RunBinp1Hv);
-  TGraphAsymmErrors* effY_Mib2_RunBinp1Hv = new TGraphAsymmErrors(numY_Mib2_RunBinp1Hv, denY_RunBinp1Hv);
+  TGraphAsymmErrors* effX_Mib2_RunBinp1Hv = new TGraphAsymmErrors(numX_Mib2_RunBinp1Hv, denX_Mib2_RunBinp1Hv);
+  TGraphAsymmErrors* effY_Mib2_RunBinp1Hv = new TGraphAsymmErrors(numY_Mib2_RunBinp1Hv, denY_Mib2_RunBinp1Hv);
   effX_Mib2_RunBinp1Hv->SetMarkerStyle(20);
   effX_Mib2_RunBinp1Hv->SetMarkerColor(1);
   effX_Mib2_RunBinp1Hv->SetLineColor(1);
@@ -332,8 +337,8 @@ void HodoBinps() {
   effY_Mib2_RunBinp1Hv->SetMarkerColor(2);
   effY_Mib2_RunBinp1Hv->SetLineColor(2);
 
-  TGraphAsymmErrors* effX_Binp1_RunBinp1Hv = new TGraphAsymmErrors(numX_Binp1_RunBinp1Hv, denX_RunBinp1Hv);
-  TGraphAsymmErrors* effY_Binp1_RunBinp1Hv = new TGraphAsymmErrors(numY_Binp1_RunBinp1Hv, denY_RunBinp1Hv);
+  TGraphAsymmErrors* effX_Binp1_RunBinp1Hv = new TGraphAsymmErrors(numX_Binp1_RunBinp1Hv, denX_Binp1_RunBinp1Hv);
+  TGraphAsymmErrors* effY_Binp1_RunBinp1Hv = new TGraphAsymmErrors(numY_Binp1_RunBinp1Hv, denY_Binp1_RunBinp1Hv);
   effX_Binp1_RunBinp1Hv->SetMarkerStyle(20);
   effX_Binp1_RunBinp1Hv->SetMarkerColor(1);
   effX_Binp1_RunBinp1Hv->SetLineColor(1);
@@ -353,15 +358,46 @@ void HodoBinps() {
   c110c->cd(2); myHy->Draw(); effY_Binp1_RunBinp1Hv->Draw("Psame");
   c110c->SaveAs("EffBinp1_VsCoord_runHvBinp1.png");  
 
-  // Binp24 HV
-  TString denBinp24Hv = "adc_data>200 && adc_data<700 && run==2352";  
-  TString numBinp24Hv_mib2  = denBinp24Hv + " && amp_max[MiB2]>20";
-  TString numBinp24Hv_rm2   = denBinp24Hv + " && amp_max[Rm2]>20";
-  TString numBinp24Hv_binp2 = denBinp24Hv + " && amp_max[BINP2]>20";
-  TString numBinp24Hv_binp4 = denBinp24Hv + " && amp_max[BINP4]>20";
+  TH2F *den_Mib2_RunBinp1Hv  = new TH2F("den_Mib2_RunBinp1Hv",  "den_Mib2_RunBinp1Hv",  16,-1.5,30.5, 16,-1.5,30.5);
+  TH2F *den_Binp1_RunBinp1Hv = new TH2F("den_Binp1_RunBinp1Hv", "den_Binp1_RunBinp1Hv", 16,-1.5,30.5, 16,-1.5,30.5);
+  TH2F *num_Mib2_RunBinp1Hv  = new TH2F("num_Mib2_RunBinp1Hv",  "num_Mib2_RunBinp1Hv",  16,-1.5,30.5, 16,-1.5,30.5);
+  TH2F *num_Binp1_RunBinp1Hv = new TH2F("num_Binp1_RunBinp1Hv", "num_Binp1_RunBinp1Hv", 16,-1.5,30.5, 16,-1.5,30.5);
 
-  TH1F *denX_RunBinp24Hv       = new TH1F("denX_RunBinp24Hv",      "denX_RunBinp24Hv",      16,-1.5,30.5);  
-  TH1F *denY_RunBinp24Hv       = new TH1F("denY_RunBinp24Hv",      "denY_RunBinp24Hv",      16,-1.5,30.5);
+  h4Binp1Hv ->Project("den_Mib2_RunBinp1Hv",  "Y:X", denBinp1Hv_ref);
+  h4Binp1Hv ->Project("den_Binp1_RunBinp1Hv", "Y:X", denBinp1Hv_binp);
+  h4Binp1Hv ->Project("num_Mib2_RunBinp1Hv",  "Y:X", numBinp1Hv_mib2);
+  h4Binp1Hv ->Project("num_Binp1_RunBinp1Hv", "Y:X", numBinp1Hv_binp1);
+  
+  TH2F *eff2dim_Mib2_RunBinp1Hv = (TH2F*)num_Mib2_RunBinp1Hv->Clone();
+  eff2dim_Mib2_RunBinp1Hv->Divide(den_Mib2_RunBinp1Hv);
+  TH2F *eff2dim_Binp1_RunBinp1Hv = (TH2F*)num_Binp1_RunBinp1Hv->Clone();
+  eff2dim_Binp1_RunBinp1Hv->Divide(den_Binp1_RunBinp1Hv);
+
+  TCanvas* c110a2 = new TCanvas("c110a2","c",1);
+  eff2dim_Mib2_RunBinp1Hv->Draw("colz");
+  c110a2->SaveAs("EffMib2_2dim_runHvBinp1.png");  
+
+  TCanvas* c110b2 = new TCanvas("c110b2","c",1);
+  eff2dim_Binp1_RunBinp1Hv->Draw("colz");
+  c110b2->SaveAs("Effbinp1_2dim_runHvBinp1.png");  
+
+
+  // Binp24 HV
+  TString denBinp24Hv_ref   = "adc_data>200 && adc_data<700 && run==2352 && n_hitsX>0 && n_hitsX<3 && n_hitsY>0 && n_hitsY<3";  
+  TString denBinp24Hv_binp  = denBinp24Hv_ref + " && amp_max[MiB2]>200 && amp_max[Rm2]>200";
+  TString numBinp24Hv_mib2  = denBinp24Hv_ref + " && amp_max[MiB2]>20";
+  TString numBinp24Hv_rm2   = denBinp24Hv_ref + " && amp_max[Rm2]>20";
+  TString numBinp24Hv_binp2 = denBinp24Hv_binp + " && amp_max[BINP2]>20";
+  TString numBinp24Hv_binp4 = denBinp24Hv_binp + " && amp_max[BINP4]>20";
+
+  TH1F *denX_Mib2_RunBinp24Hv  = new TH1F("denX_Mib2_RunBinp24Hv", "denX_Mib2_RunBinp24Hv", 16,-1.5,30.5);  
+  TH1F *denY_Mib2_RunBinp24Hv  = new TH1F("denY_Mib2_RunBinp24Hv", "denY_Mib2_RunBinp24Hv", 16,-1.5,30.5);  
+  TH1F *denX_Rm2_RunBinp24Hv   = new TH1F("denX_Rm2_RunBinp24Hv",  "denX_Rm2_RunBinp24Hv",  16,-1.5,30.5);  
+  TH1F *denY_Rm2_RunBinp24Hv   = new TH1F("denY_Rm2_RunBinp24Hv",  "denY_Rm2_RunBinp24Hv",  16,-1.5,30.5);  
+  TH1F *denX_Binp2_RunBinp24Hv = new TH1F("denX_Binp2_RunBinp24Hv","denX_Binp2_RunBinp24Hv",16,-1.5,30.5);  
+  TH1F *denY_Binp2_RunBinp24Hv = new TH1F("denY_Binp2_RunBinp24Hv","denY_Binp2_RunBinp24Hv",16,-1.5,30.5);  
+  TH1F *denX_Binp4_RunBinp24Hv = new TH1F("denX_Binp4_RunBinp24Hv","denX_Binp4_RunBinp24Hv",16,-1.5,30.5);  
+  TH1F *denY_Binp4_RunBinp24Hv = new TH1F("denY_Binp4_RunBinp24Hv","denY_Binp4_RunBinp24Hv",16,-1.5,30.5);  
   TH1F *numX_Mib2_RunBinp24Hv  = new TH1F("numX_Mib2_RunBinp24Hv", "numX_Mib2_RunBinp24Hv", 16,-1.5,30.5);  
   TH1F *numY_Mib2_RunBinp24Hv  = new TH1F("numY_Mib2_RunBinp24Hv", "numY_Mib2_RunBinp24Hv", 16,-1.5,30.5);  
   TH1F *numX_Rm2_RunBinp24Hv   = new TH1F("numX_Rm2_RunBinp24Hv",  "numX_Rm2_RunBinp24Hv",  16,-1.5,30.5);  
@@ -371,8 +407,14 @@ void HodoBinps() {
   TH1F *numX_Binp4_RunBinp24Hv = new TH1F("numX_Binp4_RunBinp24Hv","numX_Binp4_RunBinp24Hv",16,-1.5,30.5);  
   TH1F *numY_Binp4_RunBinp24Hv = new TH1F("numY_Binp4_RunBinp24Hv","numY_Binp4_RunBinp24Hv",16,-1.5,30.5);  
 
-  h4Binp24Hv ->Project("denX_RunBinp24Hv",       "X", denBinp24Hv);
-  h4Binp24Hv ->Project("denY_RunBinp24Hv",       "Y", denBinp24Hv);
+  h4Binp24Hv ->Project("denX_Mib2_RunBinp24Hv",  "X", denBinp24Hv_ref);
+  h4Binp24Hv ->Project("denY_Mib2_RunBinp24Hv",  "Y", denBinp24Hv_ref);
+  h4Binp24Hv ->Project("denX_Rm2_RunBinp24Hv",   "X", denBinp24Hv_ref);
+  h4Binp24Hv ->Project("denY_Rm2_RunBinp24Hv",   "Y", denBinp24Hv_ref);
+  h4Binp24Hv ->Project("denX_Binp2_RunBinp24Hv", "X", denBinp24Hv_binp);
+  h4Binp24Hv ->Project("denY_Binp2_RunBinp24Hv", "Y", denBinp24Hv_binp);
+  h4Binp24Hv ->Project("denX_Binp4_RunBinp24Hv", "X", denBinp24Hv_binp);
+  h4Binp24Hv ->Project("denY_Binp4_RunBinp24Hv", "Y", denBinp24Hv_binp);
   h4Binp24Hv ->Project("numX_Mib2_RunBinp24Hv",  "X", numBinp24Hv_mib2);
   h4Binp24Hv ->Project("numY_Mib2_RunBinp24Hv",  "Y", numBinp24Hv_mib2);
   h4Binp24Hv ->Project("numX_Rm2_RunBinp24Hv",   "X", numBinp24Hv_rm2);
@@ -382,8 +424,8 @@ void HodoBinps() {
   h4Binp24Hv ->Project("numX_Binp4_RunBinp24Hv", "X", numBinp24Hv_binp4);
   h4Binp24Hv ->Project("numY_Binp4_RunBinp24Hv", "Y", numBinp24Hv_binp4);
 
-  TGraphAsymmErrors* effX_Mib2_RunBinp24Hv = new TGraphAsymmErrors(numX_Mib2_RunBinp24Hv, denX_RunBinp24Hv);
-  TGraphAsymmErrors* effY_Mib2_RunBinp24Hv = new TGraphAsymmErrors(numY_Mib2_RunBinp24Hv, denY_RunBinp24Hv);
+  TGraphAsymmErrors* effX_Mib2_RunBinp24Hv = new TGraphAsymmErrors(numX_Mib2_RunBinp24Hv, denX_Mib2_RunBinp24Hv);
+  TGraphAsymmErrors* effY_Mib2_RunBinp24Hv = new TGraphAsymmErrors(numY_Mib2_RunBinp24Hv, denY_Mib2_RunBinp24Hv);
   effX_Mib2_RunBinp24Hv->SetMarkerStyle(20);
   effX_Mib2_RunBinp24Hv->SetMarkerColor(1);
   effX_Mib2_RunBinp24Hv->SetLineColor(1);
@@ -391,8 +433,8 @@ void HodoBinps() {
   effY_Mib2_RunBinp24Hv->SetMarkerColor(2);
   effY_Mib2_RunBinp24Hv->SetLineColor(2);
 
-  TGraphAsymmErrors* effX_Rm2_RunBinp24Hv = new TGraphAsymmErrors(numX_Rm2_RunBinp24Hv, denX_RunBinp24Hv);
-  TGraphAsymmErrors* effY_Rm2_RunBinp24Hv = new TGraphAsymmErrors(numY_Rm2_RunBinp24Hv, denY_RunBinp24Hv);
+  TGraphAsymmErrors* effX_Rm2_RunBinp24Hv = new TGraphAsymmErrors(numX_Rm2_RunBinp24Hv, denX_Rm2_RunBinp24Hv);
+  TGraphAsymmErrors* effY_Rm2_RunBinp24Hv = new TGraphAsymmErrors(numY_Rm2_RunBinp24Hv, denY_Rm2_RunBinp24Hv);
   effX_Rm2_RunBinp24Hv->SetMarkerStyle(20);
   effX_Rm2_RunBinp24Hv->SetMarkerColor(1);
   effX_Rm2_RunBinp24Hv->SetLineColor(1);
@@ -400,8 +442,8 @@ void HodoBinps() {
   effY_Rm2_RunBinp24Hv->SetMarkerColor(2);
   effY_Rm2_RunBinp24Hv->SetLineColor(2);
 
-  TGraphAsymmErrors* effX_Binp2_RunBinp24Hv = new TGraphAsymmErrors(numX_Binp2_RunBinp24Hv, denX_RunBinp24Hv);
-  TGraphAsymmErrors* effY_Binp2_RunBinp24Hv = new TGraphAsymmErrors(numY_Binp2_RunBinp24Hv, denY_RunBinp24Hv);
+  TGraphAsymmErrors* effX_Binp2_RunBinp24Hv = new TGraphAsymmErrors(numX_Binp2_RunBinp24Hv, denX_Binp2_RunBinp24Hv);
+  TGraphAsymmErrors* effY_Binp2_RunBinp24Hv = new TGraphAsymmErrors(numY_Binp2_RunBinp24Hv, denY_Binp2_RunBinp24Hv);
   effX_Binp2_RunBinp24Hv->SetMarkerStyle(20);
   effX_Binp2_RunBinp24Hv->SetMarkerColor(1);
   effX_Binp2_RunBinp24Hv->SetLineColor(1);
@@ -409,8 +451,8 @@ void HodoBinps() {
   effY_Binp2_RunBinp24Hv->SetMarkerColor(2);
   effY_Binp2_RunBinp24Hv->SetLineColor(2);
 
-  TGraphAsymmErrors* effX_Binp4_RunBinp24Hv = new TGraphAsymmErrors(numX_Binp4_RunBinp24Hv, denX_RunBinp24Hv);
-  TGraphAsymmErrors* effY_Binp4_RunBinp24Hv = new TGraphAsymmErrors(numY_Binp4_RunBinp24Hv, denY_RunBinp24Hv);
+  TGraphAsymmErrors* effX_Binp4_RunBinp24Hv = new TGraphAsymmErrors(numX_Binp4_RunBinp24Hv, denX_Binp4_RunBinp24Hv);
+  TGraphAsymmErrors* effY_Binp4_RunBinp24Hv = new TGraphAsymmErrors(numY_Binp4_RunBinp24Hv, denY_Binp4_RunBinp24Hv);
   effX_Binp4_RunBinp24Hv->SetMarkerStyle(20);
   effX_Binp4_RunBinp24Hv->SetMarkerColor(1);
   effX_Binp4_RunBinp24Hv->SetLineColor(1);
@@ -442,15 +484,59 @@ void HodoBinps() {
   c210d->cd(2); myHy->Draw(); effY_Binp4_RunBinp24Hv->Draw("Psame");
   c210d->SaveAs("EffBinp4_VsCoord_runHvBinp24.png");  
 
+  TH2F *den_Mib2_RunBinp24Hv  = new TH2F("den_Mib2_RunBinp24Hv", "den_Mib2_RunBinp24Hv", 16,-1.5,30.5, 16,-1.5,30.5);  
+  TH2F *den_Rm2_RunBinp24Hv   = new TH2F("den_Rm2_RunBinp24Hv",  "den_Rm2_RunBinp24Hv",  16,-1.5,30.5, 16,-1.5,30.5);  
+  TH2F *den_Binp2_RunBinp24Hv = new TH2F("den_Binp2_RunBinp24Hv","den_Binp2_RunBinp24Hv",16,-1.5,30.5, 16,-1.5,30.5);  
+  TH2F *den_Binp4_RunBinp24Hv = new TH2F("den_Binp4_RunBinp24Hv","den_Binp4_RunBinp24Hv",16,-1.5,30.5, 16,-1.5,30.5);  
+  TH2F *num_Mib2_RunBinp24Hv  = new TH2F("num_Mib2_RunBinp24Hv", "num_Mib2_RunBinp24Hv", 16,-1.5,30.5, 16,-1.5,30.5);  
+  TH2F *num_Rm2_RunBinp24Hv   = new TH2F("num_Rm2_RunBinp24Hv",  "num_Rm2_RunBinp24Hv",  16,-1.5,30.5, 16,-1.5,30.5);  
+  TH2F *num_Binp2_RunBinp24Hv = new TH2F("num_Binp2_RunBinp24Hv","num_Binp2_RunBinp24Hv",16,-1.5,30.5, 16,-1.5,30.5);  
+  TH2F *num_Binp4_RunBinp24Hv = new TH2F("num_Binp4_RunBinp24Hv","num_Binp4_RunBinp24Hv",16,-1.5,30.5, 16,-1.5,30.5);  
+  h4Binp24Hv ->Project("den_Mib2_RunBinp24Hv",  "Y:X", denBinp24Hv_ref);
+  h4Binp24Hv ->Project("den_Rm2_RunBinp24Hv",   "Y:X", denBinp24Hv_ref);
+  h4Binp24Hv ->Project("den_Binp2_RunBinp24Hv", "Y:X", denBinp24Hv_binp);
+  h4Binp24Hv ->Project("den_Binp4_RunBinp24Hv", "Y:X", denBinp24Hv_binp);
+  h4Binp24Hv ->Project("num_Mib2_RunBinp24Hv",  "Y:X", numBinp24Hv_mib2);
+  h4Binp24Hv ->Project("num_Rm2_RunBinp24Hv",   "Y:X", numBinp24Hv_rm2);
+  h4Binp24Hv ->Project("num_Binp2_RunBinp24Hv", "Y:X", numBinp24Hv_binp2);
+  h4Binp24Hv ->Project("num_Binp4_RunBinp24Hv", "Y:X", numBinp24Hv_binp4);
+
+  TH2F *eff2dim_Mib2_RunBinp24Hv = (TH2F*)num_Mib2_RunBinp24Hv->Clone();
+  eff2dim_Mib2_RunBinp24Hv->Divide(den_Mib2_RunBinp24Hv);
+  TH2F *eff2dim_Rm2_RunBinp24Hv = (TH2F*)num_Rm2_RunBinp24Hv->Clone();
+  eff2dim_Rm2_RunBinp24Hv->Divide(den_Rm2_RunBinp24Hv);
+  TH2F *eff2dim_Binp2_RunBinp24Hv = (TH2F*)num_Binp2_RunBinp24Hv->Clone();
+  eff2dim_Binp2_RunBinp24Hv->Divide(den_Binp2_RunBinp24Hv);
+  TH2F *eff2dim_Binp4_RunBinp24Hv = (TH2F*)num_Binp4_RunBinp24Hv->Clone();
+  eff2dim_Binp4_RunBinp24Hv->Divide(den_Binp4_RunBinp24Hv);
+
+  TCanvas* c210a2 = new TCanvas("c210a2","c",1);
+  eff2dim_Mib2_RunBinp24Hv->Draw("colz");
+  c210a2->SaveAs("EffMib2_2dim_runHvBinp24.png");  
+  TCanvas* c210b2 = new TCanvas("c210b2","c",1);
+  eff2dim_Rm2_RunBinp24Hv->Draw("colz");
+  c210b2->SaveAs("EffRm2_2dim_runHvBinp24.png");  
+  TCanvas* c210c2 = new TCanvas("c210c2","c",1);
+  eff2dim_Binp2_RunBinp24Hv->Draw("colz");
+  c210c2->SaveAs("EffBinp2_2dim_runHvBinp24.png");  
+  TCanvas* c210d2 = new TCanvas("c210d2","c",1);
+  eff2dim_Binp4_RunBinp24Hv->Draw("colz");
+  c210d2->SaveAs("EffBinp4_2dim_runHvBinp24.png");  
+
 
   // Binp3 HV
-  TString denBinp3Hv = "adc_data>200 && adc_data<700 && run==2341";  
-  TString numBinp3Hv_mib2  = denBinp3Hv + " && amp_max[MiB2]>20";
-  TString numBinp3Hv_rm2   = denBinp3Hv + " && amp_max[Rm2]>20";
-  TString numBinp3Hv_binp3 = denBinp3Hv + " && amp_max[BINP3]>20";
+  TString denBinp3Hv_ref   = "adc_data>200 && adc_data<700 && run==2341 && n_hitsX>0 && n_hitsX<3 && n_hitsY>0 && n_hitsY<3";  
+  TString denBinp3Hv_binp  = denBinp3Hv_ref + " && amp_max[MiB2]>200 && amp_max[Rm2]>200";
+  TString numBinp3Hv_mib2  = denBinp3Hv_ref + " && amp_max[MiB2]>20";
+  TString numBinp3Hv_rm2   = denBinp3Hv_ref + " && amp_max[Rm2]>20";
+  TString numBinp3Hv_binp3 = denBinp3Hv_binp + " && amp_max[BINP3]>20";
 
-  TH1F *denX_RunBinp3Hv       = new TH1F("denX_RunBinp3Hv",      "denX_RunBinp3Hv",      16,-1.5,30.5);  
-  TH1F *denY_RunBinp3Hv       = new TH1F("denY_RunBinp3Hv",      "denY_RunBinp3Hv",      16,-1.5,30.5);
+  TH1F *denX_Mib2_RunBinp3Hv  = new TH1F("denX_Mib2_RunBinp3Hv", "denX_Mib2_RunBinp3Hv", 16,-1.5,30.5);  
+  TH1F *denY_Mib2_RunBinp3Hv  = new TH1F("denY_Mib2_RunBinp3Hv", "denY_Mib2_RunBinp3Hv", 16,-1.5,30.5);  
+  TH1F *denX_Rm2_RunBinp3Hv   = new TH1F("denX_Rm2_RunBinp3Hv",  "denX_Rm2_RunBinp3Hv",  16,-1.5,30.5);  
+  TH1F *denY_Rm2_RunBinp3Hv   = new TH1F("denY_Rm2_RunBinp3Hv",  "denY_Rm2_RunBinp3Hv",  16,-1.5,30.5);  
+  TH1F *denX_Binp3_RunBinp3Hv = new TH1F("denX_Binp3_RunBinp3Hv","denX_Binp3_RunBinp3Hv",16,-1.5,30.5);  
+  TH1F *denY_Binp3_RunBinp3Hv = new TH1F("denY_Binp3_RunBinp3Hv","denY_Binp3_RunBinp3Hv",16,-1.5,30.5);  
   TH1F *numX_Mib2_RunBinp3Hv  = new TH1F("numX_Mib2_RunBinp3Hv", "numX_Mib2_RunBinp3Hv", 16,-1.5,30.5);  
   TH1F *numY_Mib2_RunBinp3Hv  = new TH1F("numY_Mib2_RunBinp3Hv", "numY_Mib2_RunBinp3Hv", 16,-1.5,30.5);  
   TH1F *numX_Rm2_RunBinp3Hv   = new TH1F("numX_Rm2_RunBinp3Hv",  "numX_Rm2_RunBinp3Hv",  16,-1.5,30.5);  
@@ -458,8 +544,12 @@ void HodoBinps() {
   TH1F *numX_Binp3_RunBinp3Hv = new TH1F("numX_Binp3_RunBinp3Hv","numX_Binp3_RunBinp3Hv",16,-1.5,30.5);  
   TH1F *numY_Binp3_RunBinp3Hv = new TH1F("numY_Binp3_RunBinp3Hv","numY_Binp3_RunBinp3Hv",16,-1.5,30.5);  
 
-  h4Binp3Hv ->Project("denX_RunBinp3Hv",       "X", denBinp3Hv);
-  h4Binp3Hv ->Project("denY_RunBinp3Hv",       "Y", denBinp3Hv);
+  h4Binp3Hv ->Project("denX_Mib2_RunBinp3Hv",  "X", denBinp3Hv_ref);
+  h4Binp3Hv ->Project("denY_Mib2_RunBinp3Hv",  "Y", denBinp3Hv_ref);
+  h4Binp3Hv ->Project("denX_Rm2_RunBinp3Hv",   "X", denBinp3Hv_ref);
+  h4Binp3Hv ->Project("denY_Rm2_RunBinp3Hv",   "Y", denBinp3Hv_ref);
+  h4Binp3Hv ->Project("denX_Binp3_RunBinp3Hv", "X", denBinp3Hv_binp);
+  h4Binp3Hv ->Project("denY_Binp3_RunBinp3Hv", "Y", denBinp3Hv_binp);
   h4Binp3Hv ->Project("numX_Mib2_RunBinp3Hv",  "X", numBinp3Hv_mib2);
   h4Binp3Hv ->Project("numY_Mib2_RunBinp3Hv",  "Y", numBinp3Hv_mib2);
   h4Binp3Hv ->Project("numX_Rm2_RunBinp3Hv",   "X", numBinp3Hv_rm2);
@@ -467,8 +557,8 @@ void HodoBinps() {
   h4Binp3Hv ->Project("numX_Binp3_RunBinp3Hv", "X", numBinp3Hv_binp3);
   h4Binp3Hv ->Project("numY_Binp3_RunBinp3Hv", "Y", numBinp3Hv_binp3);
 
-  TGraphAsymmErrors* effX_Mib2_RunBinp3Hv = new TGraphAsymmErrors(numX_Mib2_RunBinp3Hv, denX_RunBinp3Hv);
-  TGraphAsymmErrors* effY_Mib2_RunBinp3Hv = new TGraphAsymmErrors(numY_Mib2_RunBinp3Hv, denY_RunBinp3Hv);
+  TGraphAsymmErrors* effX_Mib2_RunBinp3Hv = new TGraphAsymmErrors(numX_Mib2_RunBinp3Hv, denX_Mib2_RunBinp3Hv);
+  TGraphAsymmErrors* effY_Mib2_RunBinp3Hv = new TGraphAsymmErrors(numY_Mib2_RunBinp3Hv, denY_Mib2_RunBinp3Hv);
   effX_Mib2_RunBinp3Hv->SetMarkerStyle(20);
   effX_Mib2_RunBinp3Hv->SetMarkerColor(1);
   effX_Mib2_RunBinp3Hv->SetLineColor(1);
@@ -476,8 +566,8 @@ void HodoBinps() {
   effY_Mib2_RunBinp3Hv->SetMarkerColor(2);
   effY_Mib2_RunBinp3Hv->SetLineColor(2);
 
-  TGraphAsymmErrors* effX_Rm2_RunBinp3Hv = new TGraphAsymmErrors(numX_Rm2_RunBinp3Hv, denX_RunBinp3Hv);
-  TGraphAsymmErrors* effY_Rm2_RunBinp3Hv = new TGraphAsymmErrors(numY_Rm2_RunBinp3Hv, denY_RunBinp3Hv);
+  TGraphAsymmErrors* effX_Rm2_RunBinp3Hv = new TGraphAsymmErrors(numX_Rm2_RunBinp3Hv, denX_Rm2_RunBinp3Hv);
+  TGraphAsymmErrors* effY_Rm2_RunBinp3Hv = new TGraphAsymmErrors(numY_Rm2_RunBinp3Hv, denY_Rm2_RunBinp3Hv);
   effX_Rm2_RunBinp3Hv->SetMarkerStyle(20);
   effX_Rm2_RunBinp3Hv->SetMarkerColor(1);
   effX_Rm2_RunBinp3Hv->SetLineColor(1);
@@ -485,8 +575,8 @@ void HodoBinps() {
   effY_Rm2_RunBinp3Hv->SetMarkerColor(2);
   effY_Rm2_RunBinp3Hv->SetLineColor(2);
 
-  TGraphAsymmErrors* effX_Binp3_RunBinp3Hv = new TGraphAsymmErrors(numX_Binp3_RunBinp3Hv, denX_RunBinp3Hv);
-  TGraphAsymmErrors* effY_Binp3_RunBinp3Hv = new TGraphAsymmErrors(numY_Binp3_RunBinp3Hv, denY_RunBinp3Hv);
+  TGraphAsymmErrors* effX_Binp3_RunBinp3Hv = new TGraphAsymmErrors(numX_Binp3_RunBinp3Hv, denX_Binp3_RunBinp3Hv);
+  TGraphAsymmErrors* effY_Binp3_RunBinp3Hv = new TGraphAsymmErrors(numY_Binp3_RunBinp3Hv, denY_Binp3_RunBinp3Hv);
   effX_Binp3_RunBinp3Hv->SetMarkerStyle(20);
   effX_Binp3_RunBinp3Hv->SetMarkerColor(1);
   effX_Binp3_RunBinp3Hv->SetLineColor(1);
@@ -512,17 +602,57 @@ void HodoBinps() {
   c310c->cd(2); myHy->Draw(); effY_Binp3_RunBinp3Hv->Draw("Psame");
   c310c->SaveAs("EffBinp3_VsCoord_runHvBinp3.png");  
 
+  TH2F *den_Mib2_RunBinp3Hv  = new TH2F("den_Mib2_RunBinp3Hv", "den_Mib2_RunBinp3Hv", 16,-1.5,30.5, 16,-1.5,30.5);  
+  TH2F *den_Rm2_RunBinp3Hv   = new TH2F("den_Rm2_RunBinp3Hv",  "den_Rm2_RunBinp3Hv",  16,-1.5,30.5, 16,-1.5,30.5);  
+  TH2F *den_Binp3_RunBinp3Hv = new TH2F("den_Binp3_RunBinp3Hv","den_Binp3_RunBinp3Hv",16,-1.5,30.5, 16,-1.5,30.5);  
+  TH2F *num_Mib2_RunBinp3Hv  = new TH2F("num_Mib2_RunBinp3Hv", "num_Mib2_RunBinp3Hv", 16,-1.5,30.5, 16,-1.5,30.5);  
+  TH2F *num_Rm2_RunBinp3Hv   = new TH2F("num_Rm2_RunBinp3Hv",  "num_Rm2_RunBinp3Hv",  16,-1.5,30.5, 16,-1.5,30.5);  
+  TH2F *num_Binp3_RunBinp3Hv = new TH2F("num_Binp3_RunBinp3Hv","num_Binp3_RunBinp3Hv",16,-1.5,30.5, 16,-1.5,30.5);  
+
+  h4Binp3Hv ->Project("den_Mib2_RunBinp3Hv",  "Y:X", denBinp3Hv_ref);
+  h4Binp3Hv ->Project("den_Rm2_RunBinp3Hv",   "Y:X", denBinp3Hv_ref);
+  h4Binp3Hv ->Project("den_Binp3_RunBinp3Hv", "Y:X", denBinp3Hv_binp);
+  h4Binp3Hv ->Project("num_Mib2_RunBinp3Hv",  "Y:X", numBinp3Hv_mib2);
+  h4Binp3Hv ->Project("num_Rm2_RunBinp3Hv",   "Y:X", numBinp3Hv_rm2);
+  h4Binp3Hv ->Project("num_Binp3_RunBinp3Hv", "Y:X", numBinp3Hv_binp3);
+
+  TH2F *eff2dim_Mib2_RunBinp3Hv = (TH2F*)num_Mib2_RunBinp3Hv->Clone();
+  eff2dim_Mib2_RunBinp3Hv->Divide(den_Mib2_RunBinp3Hv);
+  TH2F *eff2dim_Rm2_RunBinp3Hv = (TH2F*)num_Rm2_RunBinp3Hv->Clone();
+  eff2dim_Rm2_RunBinp3Hv->Divide(den_Rm2_RunBinp3Hv);
+  TH2F *eff2dim_Binp3_RunBinp3Hv = (TH2F*)num_Binp3_RunBinp3Hv->Clone();
+  eff2dim_Binp3_RunBinp3Hv->Divide(den_Binp3_RunBinp3Hv);
+
+  TCanvas* c310a2 = new TCanvas("c310a2","c",1);
+  eff2dim_Mib2_RunBinp3Hv->Draw("colz");
+  c310a2->SaveAs("EffMib2_2dim_runHvBinp3.png");  
+  TCanvas* c310b2 = new TCanvas("c310b2","c",1);
+  eff2dim_Rm2_RunBinp3Hv->Draw("colz");
+  c310b2->SaveAs("EffRm2_2dim_runHvBinp3.png");  
+  TCanvas* c310c2 = new TCanvas("c310c2","c",1);
+  eff2dim_Binp3_RunBinp3Hv->Draw("colz");
+  c310c2->SaveAs("EffBinp3_2dim_runHvBinp3.png");  
+
 
   // Binp124 Timing
-  TString denBinp124Timing = "adc_data>200 && adc_data<700";  
-  TString numBinp124Timing_mib2  = denBinp124Timing + " && amp_max[MiB2]>20";
-  TString numBinp124Timing_rm2   = denBinp124Timing + " && amp_max[Rm2]>20";
-  TString numBinp124Timing_binp1 = denBinp124Timing + " && amp_max[BINP1]>20";
-  TString numBinp124Timing_binp2 = denBinp124Timing + " && amp_max[BINP2]>20";
-  TString numBinp124Timing_binp4 = denBinp124Timing + " && amp_max[BINP4]>20";
+  TString denBinp124Timing_ref   = "adc_data>200 && adc_data<700 && n_hitsX>0 && n_hitsX<3 && n_hitsY>0 && n_hitsY<3";  
+  TString denBinp124Timing_binp  = denBinp124Timing_ref + " && amp_max[MiB2]>200 && amp_max[Rm2]>200";
+  TString numBinp124Timing_mib2  = denBinp124Timing_ref + " && amp_max[MiB2]>20";
+  TString numBinp124Timing_rm2   = denBinp124Timing_ref + " && amp_max[Rm2]>20";
+  TString numBinp124Timing_binp1 = denBinp124Timing_binp + " && amp_max[BINP1]>20";
+  TString numBinp124Timing_binp2 = denBinp124Timing_binp + " && amp_max[BINP2]>20";
+  TString numBinp124Timing_binp4 = denBinp124Timing_binp + " && amp_max[BINP4]>20";
 
-  TH1F *denX_RunBinp124Timing       = new TH1F("denX_RunBinp124Timing",      "denX_RunBinp124Timing",      16,-1.5,30.5);  
-  TH1F *denY_RunBinp124Timing       = new TH1F("denY_RunBinp124Timing",      "denY_RunBinp124Timing",      16,-1.5,30.5);
+  TH1F *denX_Mib2_RunBinp124Timing  = new TH1F("denX_Mib2_RunBinp124Timing", "denX_Mib2_RunBinp124Timing", 16,-1.5,30.5);  
+  TH1F *denY_Mib2_RunBinp124Timing  = new TH1F("denY_Mib2_RunBinp124Timing", "denY_Mib2_RunBinp124Timing", 16,-1.5,30.5);  
+  TH1F *denX_Rm2_RunBinp124Timing   = new TH1F("denX_Rm2_RunBinp124Timing",  "denX_Rm2_RunBinp124Timing",  16,-1.5,30.5);  
+  TH1F *denY_Rm2_RunBinp124Timing   = new TH1F("denY_Rm2_RunBinp124Timing",  "denY_Rm2_RunBinp124Timing",  16,-1.5,30.5);  
+  TH1F *denX_Binp1_RunBinp124Timing = new TH1F("denX_Binp1_RunBinp124Timing","denX_Binp1_RunBinp124Timing",16,-1.5,30.5);  
+  TH1F *denY_Binp1_RunBinp124Timing = new TH1F("denY_Binp1_RunBinp124Timing","denY_Binp1_RunBinp124Timing",16,-1.5,30.5);  
+  TH1F *denX_Binp2_RunBinp124Timing = new TH1F("denX_Binp2_RunBinp124Timing","denX_Binp2_RunBinp124Timing",16,-1.5,30.5);  
+  TH1F *denY_Binp2_RunBinp124Timing = new TH1F("denY_Binp2_RunBinp124Timing","denY_Binp2_RunBinp124Timing",16,-1.5,30.5);  
+  TH1F *denX_Binp4_RunBinp124Timing = new TH1F("denX_Binp4_RunBinp124Timing","denX_Binp4_RunBinp124Timing",16,-1.5,30.5);  
+  TH1F *denY_Binp4_RunBinp124Timing = new TH1F("denY_Binp4_RunBinp124Timing","denY_Binp4_RunBinp124Timing",16,-1.5,30.5);  
   TH1F *numX_Mib2_RunBinp124Timing  = new TH1F("numX_Mib2_RunBinp124Timing", "numX_Mib2_RunBinp124Timing", 16,-1.5,30.5);  
   TH1F *numY_Mib2_RunBinp124Timing  = new TH1F("numY_Mib2_RunBinp124Timing", "numY_Mib2_RunBinp124Timing", 16,-1.5,30.5);  
   TH1F *numX_Rm2_RunBinp124Timing   = new TH1F("numX_Rm2_RunBinp124Timing",  "numX_Rm2_RunBinp124Timing",  16,-1.5,30.5);  
@@ -534,8 +664,16 @@ void HodoBinps() {
   TH1F *numX_Binp4_RunBinp124Timing = new TH1F("numX_Binp4_RunBinp124Timing","numX_Binp4_RunBinp124Timing",16,-1.5,30.5);  
   TH1F *numY_Binp4_RunBinp124Timing = new TH1F("numY_Binp4_RunBinp124Timing","numY_Binp4_RunBinp124Timing",16,-1.5,30.5);  
 
-  h4Binp124Timing ->Project("denX_RunBinp124Timing",       "X", denBinp124Timing);
-  h4Binp124Timing ->Project("denY_RunBinp124Timing",       "Y", denBinp124Timing);
+  h4Binp124Timing ->Project("denX_Mib2_RunBinp124Timing",  "X", denBinp124Timing_ref);
+  h4Binp124Timing ->Project("denY_Mib2_RunBinp124Timing",  "Y", denBinp124Timing_ref);
+  h4Binp124Timing ->Project("denX_Rm2_RunBinp124Timing",   "X", denBinp124Timing_ref);
+  h4Binp124Timing ->Project("denY_Rm2_RunBinp124Timing",   "Y", denBinp124Timing_ref);
+  h4Binp124Timing ->Project("denX_Binp1_RunBinp124Timing", "X", denBinp124Timing_binp);
+  h4Binp124Timing ->Project("denY_Binp1_RunBinp124Timing", "Y", denBinp124Timing_binp);
+  h4Binp124Timing ->Project("denX_Binp2_RunBinp124Timing", "X", denBinp124Timing_binp);
+  h4Binp124Timing ->Project("denY_Binp2_RunBinp124Timing", "Y", denBinp124Timing_binp);
+  h4Binp124Timing ->Project("denX_Binp4_RunBinp124Timing", "X", denBinp124Timing_binp);
+  h4Binp124Timing ->Project("denY_Binp4_RunBinp124Timing", "Y", denBinp124Timing_binp);
   h4Binp124Timing ->Project("numX_Mib2_RunBinp124Timing",  "X", numBinp124Timing_mib2);
   h4Binp124Timing ->Project("numY_Mib2_RunBinp124Timing",  "Y", numBinp124Timing_mib2);
   h4Binp124Timing ->Project("numX_Rm2_RunBinp124Timing",   "X", numBinp124Timing_rm2);
@@ -547,8 +685,8 @@ void HodoBinps() {
   h4Binp124Timing ->Project("numX_Binp4_RunBinp124Timing", "X", numBinp124Timing_binp4);
   h4Binp124Timing ->Project("numY_Binp4_RunBinp124Timing", "Y", numBinp124Timing_binp4);
 
-  TGraphAsymmErrors* effX_Mib2_RunBinp124Timing = new TGraphAsymmErrors(numX_Mib2_RunBinp124Timing, denX_RunBinp124Timing);
-  TGraphAsymmErrors* effY_Mib2_RunBinp124Timing = new TGraphAsymmErrors(numY_Mib2_RunBinp124Timing, denY_RunBinp124Timing);
+  TGraphAsymmErrors* effX_Mib2_RunBinp124Timing = new TGraphAsymmErrors(numX_Mib2_RunBinp124Timing, denX_Mib2_RunBinp124Timing);
+  TGraphAsymmErrors* effY_Mib2_RunBinp124Timing = new TGraphAsymmErrors(numY_Mib2_RunBinp124Timing, denY_Mib2_RunBinp124Timing);
   effX_Mib2_RunBinp124Timing->SetMarkerStyle(20);
   effX_Mib2_RunBinp124Timing->SetMarkerColor(1);
   effX_Mib2_RunBinp124Timing->SetLineColor(1);
@@ -556,8 +694,8 @@ void HodoBinps() {
   effY_Mib2_RunBinp124Timing->SetMarkerColor(2);
   effY_Mib2_RunBinp124Timing->SetLineColor(2);
 
-  TGraphAsymmErrors* effX_Rm2_RunBinp124Timing = new TGraphAsymmErrors(numX_Rm2_RunBinp124Timing, denX_RunBinp124Timing);
-  TGraphAsymmErrors* effY_Rm2_RunBinp124Timing = new TGraphAsymmErrors(numY_Rm2_RunBinp124Timing, denY_RunBinp124Timing);
+  TGraphAsymmErrors* effX_Rm2_RunBinp124Timing = new TGraphAsymmErrors(numX_Rm2_RunBinp124Timing, denX_Rm2_RunBinp124Timing);
+  TGraphAsymmErrors* effY_Rm2_RunBinp124Timing = new TGraphAsymmErrors(numY_Rm2_RunBinp124Timing, denY_Rm2_RunBinp124Timing);
   effX_Rm2_RunBinp124Timing->SetMarkerStyle(20);
   effX_Rm2_RunBinp124Timing->SetMarkerColor(1);
   effX_Rm2_RunBinp124Timing->SetLineColor(1);
@@ -565,8 +703,8 @@ void HodoBinps() {
   effY_Rm2_RunBinp124Timing->SetMarkerColor(2);
   effY_Rm2_RunBinp124Timing->SetLineColor(2);
 
-  TGraphAsymmErrors* effX_Binp1_RunBinp124Timing = new TGraphAsymmErrors(numX_Binp1_RunBinp124Timing, denX_RunBinp124Timing);
-  TGraphAsymmErrors* effY_Binp1_RunBinp124Timing = new TGraphAsymmErrors(numY_Binp1_RunBinp124Timing, denY_RunBinp124Timing);
+  TGraphAsymmErrors* effX_Binp1_RunBinp124Timing = new TGraphAsymmErrors(numX_Binp1_RunBinp124Timing, denX_Binp1_RunBinp124Timing);
+  TGraphAsymmErrors* effY_Binp1_RunBinp124Timing = new TGraphAsymmErrors(numY_Binp1_RunBinp124Timing, denY_Binp1_RunBinp124Timing);
   effX_Binp1_RunBinp124Timing->SetMarkerStyle(20);
   effX_Binp1_RunBinp124Timing->SetMarkerColor(1);
   effX_Binp1_RunBinp124Timing->SetLineColor(1);
@@ -574,8 +712,8 @@ void HodoBinps() {
   effY_Binp1_RunBinp124Timing->SetMarkerColor(2);
   effY_Binp1_RunBinp124Timing->SetLineColor(2);
 
-  TGraphAsymmErrors* effX_Binp2_RunBinp124Timing = new TGraphAsymmErrors(numX_Binp2_RunBinp124Timing, denX_RunBinp124Timing);
-  TGraphAsymmErrors* effY_Binp2_RunBinp124Timing = new TGraphAsymmErrors(numY_Binp2_RunBinp124Timing, denY_RunBinp124Timing);
+  TGraphAsymmErrors* effX_Binp2_RunBinp124Timing = new TGraphAsymmErrors(numX_Binp2_RunBinp124Timing, denX_Binp2_RunBinp124Timing);
+  TGraphAsymmErrors* effY_Binp2_RunBinp124Timing = new TGraphAsymmErrors(numY_Binp2_RunBinp124Timing, denY_Binp2_RunBinp124Timing);
   effX_Binp2_RunBinp124Timing->SetMarkerStyle(20);
   effX_Binp2_RunBinp124Timing->SetMarkerColor(1);
   effX_Binp2_RunBinp124Timing->SetLineColor(1);
@@ -583,8 +721,8 @@ void HodoBinps() {
   effY_Binp2_RunBinp124Timing->SetMarkerColor(2);
   effY_Binp2_RunBinp124Timing->SetLineColor(2);
 
-  TGraphAsymmErrors* effX_Binp4_RunBinp124Timing = new TGraphAsymmErrors(numX_Binp4_RunBinp124Timing, denX_RunBinp124Timing);
-  TGraphAsymmErrors* effY_Binp4_RunBinp124Timing = new TGraphAsymmErrors(numY_Binp4_RunBinp124Timing, denY_RunBinp124Timing);
+  TGraphAsymmErrors* effX_Binp4_RunBinp124Timing = new TGraphAsymmErrors(numX_Binp4_RunBinp124Timing, denX_Binp4_RunBinp124Timing);
+  TGraphAsymmErrors* effY_Binp4_RunBinp124Timing = new TGraphAsymmErrors(numY_Binp4_RunBinp124Timing, denY_Binp4_RunBinp124Timing);
   effX_Binp4_RunBinp124Timing->SetMarkerStyle(20);
   effX_Binp4_RunBinp124Timing->SetMarkerColor(1);
   effX_Binp4_RunBinp124Timing->SetLineColor(1);
@@ -622,28 +760,82 @@ void HodoBinps() {
   c410e->cd(2); myHy->Draw(); effY_Binp4_RunBinp124Timing->Draw("Psame");
   c410e->SaveAs("EffBinp4_VsCoord_runTim124.png");  
 
+  TH2F *den_Mib2_RunBinp124Timing  = new TH2F("den_Mib2_RunBinp124Timing", "den_Mib2_RunBinp124Timing", 16,-1.5,30.5, 16,-1.5,30.5);  
+  TH2F *den_Rm2_RunBinp124Timing   = new TH2F("den_Rm2_RunBinp124Timing",  "den_Rm2_RunBinp124Timing",  16,-1.5,30.5, 16,-1.5,30.5);  
+  TH2F *den_Binp1_RunBinp124Timing = new TH2F("den_Binp1_RunBinp124Timing","den_Binp1_RunBinp124Timing",16,-1.5,30.5, 16,-1.5,30.5);  
+  TH2F *den_Binp2_RunBinp124Timing = new TH2F("den_Binp2_RunBinp124Timing","den_Binp2_RunBinp124Timing",16,-1.5,30.5, 16,-1.5,30.5);  
+  TH2F *den_Binp4_RunBinp124Timing = new TH2F("den_Binp4_RunBinp124Timing","den_Binp4_RunBinp124Timing",16,-1.5,30.5, 16,-1.5,30.5);  
+  TH2F *num_Mib2_RunBinp124Timing  = new TH2F("num_Mib2_RunBinp124Timing", "num_Mib2_RunBinp124Timing", 16,-1.5,30.5, 16,-1.5,30.5);  
+  TH2F *num_Rm2_RunBinp124Timing   = new TH2F("num_Rm2_RunBinp124Timing",  "num_Rm2_RunBinp124Timing",  16,-1.5,30.5, 16,-1.5,30.5);  
+  TH2F *num_Binp1_RunBinp124Timing = new TH2F("num_Binp1_RunBinp124Timing","num_Binp1_RunBinp124Timing",16,-1.5,30.5, 16,-1.5,30.5);  
+  TH2F *num_Binp2_RunBinp124Timing = new TH2F("num_Binp2_RunBinp124Timing","num_Binp2_RunBinp124Timing",16,-1.5,30.5, 16,-1.5,30.5);  
+  TH2F *num_Binp4_RunBinp124Timing = new TH2F("num_Binp4_RunBinp124Timing","num_Binp4_RunBinp124Timing",16,-1.5,30.5, 16,-1.5,30.5);  
+
+  h4Binp124Timing ->Project("den_Mib2_RunBinp124Timing",  "Y:X", denBinp124Timing_ref);
+  h4Binp124Timing ->Project("den_Rm2_RunBinp124Timing",   "Y:X", denBinp124Timing_ref);
+  h4Binp124Timing ->Project("den_Binp1_RunBinp124Timing", "Y:X", denBinp124Timing_binp);
+  h4Binp124Timing ->Project("den_Binp2_RunBinp124Timing", "Y:X", denBinp124Timing_binp);
+  h4Binp124Timing ->Project("den_Binp4_RunBinp124Timing", "Y:X", denBinp124Timing_binp);
+  h4Binp124Timing ->Project("num_Mib2_RunBinp124Timing",  "Y:X", numBinp124Timing_mib2);
+  h4Binp124Timing ->Project("num_Rm2_RunBinp124Timing",   "Y:X", numBinp124Timing_rm2);
+  h4Binp124Timing ->Project("num_Binp1_RunBinp124Timing", "Y:X", numBinp124Timing_binp1);
+  h4Binp124Timing ->Project("num_Binp2_RunBinp124Timing", "Y:X", numBinp124Timing_binp2);
+  h4Binp124Timing ->Project("num_Binp4_RunBinp124Timing", "Y:X", numBinp124Timing_binp4);
+
+  TH2F *eff2dim_Mib2_RunBinp124Timing = (TH2F*)num_Mib2_RunBinp124Timing->Clone();
+  eff2dim_Mib2_RunBinp124Timing->Divide(den_Mib2_RunBinp124Timing);
+  TH2F *eff2dim_Rm2_RunBinp124Timing = (TH2F*)num_Rm2_RunBinp124Timing->Clone();
+  eff2dim_Rm2_RunBinp124Timing->Divide(den_Rm2_RunBinp124Timing);
+  TH2F *eff2dim_Binp1_RunBinp124Timing = (TH2F*)num_Binp1_RunBinp124Timing->Clone();
+  eff2dim_Binp1_RunBinp124Timing->Divide(den_Binp1_RunBinp124Timing);
+  TH2F *eff2dim_Binp2_RunBinp124Timing = (TH2F*)num_Binp2_RunBinp124Timing->Clone();
+  eff2dim_Binp2_RunBinp124Timing->Divide(den_Binp2_RunBinp124Timing);
+  TH2F *eff2dim_Binp4_RunBinp124Timing = (TH2F*)num_Binp4_RunBinp124Timing->Clone();
+  eff2dim_Binp4_RunBinp124Timing->Divide(den_Binp4_RunBinp124Timing);
+
+  TCanvas* c410a2 = new TCanvas("c410a2","c",1);
+  eff2dim_Mib2_RunBinp124Timing->Draw("colz");
+  c410a2->SaveAs("EffMib2_2dim_run124Timing.png");  
+  TCanvas* c410b2 = new TCanvas("c410b2","c",1);
+  eff2dim_Rm2_RunBinp124Timing->Draw("colz");
+  c410b2->SaveAs("EffRm2_2dim_run124Timing.png");  
+  TCanvas* c410c2 = new TCanvas("c410c2","c",1);
+  eff2dim_Binp1_RunBinp124Timing->Draw("colz");
+  c410c2->SaveAs("EffBinp1_2dim_run124Timing.png");  
+  TCanvas* c410d2 = new TCanvas("c410d2","c",1);
+  eff2dim_Binp2_RunBinp124Timing->Draw("colz");
+  c410d2->SaveAs("EffBinp2_2dim_run124Timing.png");  
+  TCanvas* c410e2 = new TCanvas("c410e2","c",1);
+  eff2dim_Binp4_RunBinp124Timing->Draw("colz");
+  c410e2->SaveAs("EffBinp4_2dim_run124Timing.png");  
+
 
   // Binp3 Timing
-  TString denBinp3Timing = "adc_data>200 && adc_data<700";  
-  TString numBinp3Timing_mib2  = denBinp3Timing + " && amp_max[MiB2]>20";
-  TString numBinp3Timing_binp3 = denBinp3Timing + " && amp_max[BINP3]>20";
+  TString denBinp3Timing_ref   = "adc_data>200 && adc_data<700 && n_hitsX>0 && n_hitsX<3 && n_hitsY>0 && n_hitsY<3";  
+  TString denBinp3Timing_binp  = denBinp3Timing_ref + " && amp_max[MiB2]>200"; 
+  TString numBinp3Timing_mib2  = denBinp3Timing_ref + " && amp_max[MiB2]>20";
+  TString numBinp3Timing_binp3 = denBinp3Timing_binp + " && amp_max[BINP3]>20";
 
-  TH1F *denX_RunBinp3Timing       = new TH1F("denX_RunBinp3Timing",      "denX_RunBinp3Timing",      16,-1.5,30.5);  
-  TH1F *denY_RunBinp3Timing       = new TH1F("denY_RunBinp3Timing",      "denY_RunBinp3Timing",      16,-1.5,30.5);
+  TH1F *denX_Mib2_RunBinp3Timing  = new TH1F("denX_Mib2_RunBinp3Timing", "denX_Mib2_RunBinp3Timing", 16,-1.5,30.5);  
+  TH1F *denY_Mib2_RunBinp3Timing  = new TH1F("denY_Mib2_RunBinp3Timing", "denY_Mib2_RunBinp3Timing", 16,-1.5,30.5);  
+  TH1F *denX_binp3_RunBinp3Timing = new TH1F("denX_binp3_RunBinp3Timing","denX_binp3_RunBinp3Timing",16,-1.5,30.5);  
+  TH1F *denY_binp3_RunBinp3Timing = new TH1F("denY_binp3_RunBinp3Timing","denY_binp3_RunBinp3Timing",16,-1.5,30.5);  
   TH1F *numX_Mib2_RunBinp3Timing  = new TH1F("numX_Mib2_RunBinp3Timing", "numX_Mib2_RunBinp3Timing", 16,-1.5,30.5);  
   TH1F *numY_Mib2_RunBinp3Timing  = new TH1F("numY_Mib2_RunBinp3Timing", "numY_Mib2_RunBinp3Timing", 16,-1.5,30.5);  
   TH1F *numX_binp3_RunBinp3Timing = new TH1F("numX_binp3_RunBinp3Timing","numX_binp3_RunBinp3Timing",16,-1.5,30.5);  
   TH1F *numY_binp3_RunBinp3Timing = new TH1F("numY_binp3_RunBinp3Timing","numY_binp3_RunBinp3Timing",16,-1.5,30.5);  
 
-  h4Binp3Timing ->Project("denX_RunBinp3Timing",       "X", denBinp3Timing);
-  h4Binp3Timing ->Project("denY_RunBinp3Timing",       "Y", denBinp3Timing);
+  h4Binp3Timing ->Project("denX_Mib2_RunBinp3Timing",  "X", denBinp3Timing_ref);
+  h4Binp3Timing ->Project("denY_Mib2_RunBinp3Timing",  "Y", denBinp3Timing_ref);
+  h4Binp3Timing ->Project("denX_binp3_RunBinp3Timing", "X", denBinp3Timing_binp);
+  h4Binp3Timing ->Project("denY_binp3_RunBinp3Timing", "Y", denBinp3Timing_binp);
   h4Binp3Timing ->Project("numX_Mib2_RunBinp3Timing",  "X", numBinp3Timing_mib2);
   h4Binp3Timing ->Project("numY_Mib2_RunBinp3Timing",  "Y", numBinp3Timing_mib2);
   h4Binp3Timing ->Project("numX_binp3_RunBinp3Timing", "X", numBinp3Timing_binp3);
   h4Binp3Timing ->Project("numY_binp3_RunBinp3Timing", "Y", numBinp3Timing_binp3);
 
-  TGraphAsymmErrors* effX_Mib2_RunBinp3Timing = new TGraphAsymmErrors(numX_Mib2_RunBinp3Timing, denX_RunBinp3Timing);
-  TGraphAsymmErrors* effY_Mib2_RunBinp3Timing = new TGraphAsymmErrors(numY_Mib2_RunBinp3Timing, denY_RunBinp3Timing);
+  TGraphAsymmErrors* effX_Mib2_RunBinp3Timing = new TGraphAsymmErrors(numX_Mib2_RunBinp3Timing, denX_Mib2_RunBinp3Timing);
+  TGraphAsymmErrors* effY_Mib2_RunBinp3Timing = new TGraphAsymmErrors(numY_Mib2_RunBinp3Timing, denY_Mib2_RunBinp3Timing);
   effX_Mib2_RunBinp3Timing->SetMarkerStyle(20);
   effX_Mib2_RunBinp3Timing->SetMarkerColor(1);
   effX_Mib2_RunBinp3Timing->SetLineColor(1);
@@ -651,8 +843,8 @@ void HodoBinps() {
   effY_Mib2_RunBinp3Timing->SetMarkerColor(2);
   effY_Mib2_RunBinp3Timing->SetLineColor(2);
 
-  TGraphAsymmErrors* effX_binp3_RunBinp3Timing = new TGraphAsymmErrors(numX_binp3_RunBinp3Timing, denX_RunBinp3Timing);
-  TGraphAsymmErrors* effY_binp3_RunBinp3Timing = new TGraphAsymmErrors(numY_binp3_RunBinp3Timing, denY_RunBinp3Timing);
+  TGraphAsymmErrors* effX_binp3_RunBinp3Timing = new TGraphAsymmErrors(numX_binp3_RunBinp3Timing, denX_binp3_RunBinp3Timing);
+  TGraphAsymmErrors* effY_binp3_RunBinp3Timing = new TGraphAsymmErrors(numY_binp3_RunBinp3Timing, denY_binp3_RunBinp3Timing);
   effX_binp3_RunBinp3Timing->SetMarkerStyle(20);
   effX_binp3_RunBinp3Timing->SetMarkerColor(1);
   effX_binp3_RunBinp3Timing->SetLineColor(1);
@@ -671,6 +863,26 @@ void HodoBinps() {
   c510c->cd(1); myHx->Draw(); effX_binp3_RunBinp3Timing->Draw("Psame");
   c510c->cd(2); myHy->Draw(); effY_binp3_RunBinp3Timing->Draw("Psame");
   c510c->SaveAs("EffBinp3_VsCoord_runTim3.png");  
+
+  TH2F *den_Mib2_RunBinp3Timing  = new TH2F("den_Mib2_RunBinp3Timing", "den_Mib2_RunBinp3Timing", 16,-1.5,30.5, 16,-1.5,30.5);  
+  TH2F *den_binp3_RunBinp3Timing = new TH2F("den_binp3_RunBinp3Timing","den_binp3_RunBinp3Timing",16,-1.5,30.5, 16,-1.5,30.5);  
+  TH2F *num_Mib2_RunBinp3Timing  = new TH2F("num_Mib2_RunBinp3Timing", "num_Mib2_RunBinp3Timing", 16,-1.5,30.5, 16,-1.5,30.5);  
+  TH2F *num_binp3_RunBinp3Timing = new TH2F("num_binp3_RunBinp3Timing","num_binp3_RunBinp3Timing",16,-1.5,30.5, 16,-1.5,30.5);  
+  h4Binp3Timing ->Project("den_Mib2_RunBinp3Timing",  "Y:X", denBinp3Timing_ref);
+  h4Binp3Timing ->Project("den_binp3_RunBinp3Timing", "Y:X", denBinp3Timing_binp);
+  h4Binp3Timing ->Project("num_Mib2_RunBinp3Timing",  "Y:X", numBinp3Timing_mib2);
+  h4Binp3Timing ->Project("num_binp3_RunBinp3Timing", "Y:X", numBinp3Timing_binp3);
+
+  TH2F *eff2dim_Mib2_RunBinp3Timing = (TH2F*)num_Mib2_RunBinp3Timing->Clone();
+  eff2dim_Mib2_RunBinp3Timing->Divide(den_Mib2_RunBinp3Timing);
+  TH2F *eff2dim_binp3_RunBinp3Timing = (TH2F*)num_binp3_RunBinp3Timing->Clone();
+  eff2dim_binp3_RunBinp3Timing->Divide(den_binp3_RunBinp3Timing);
+  TCanvas* c510a2 = new TCanvas("c510a2","c",1);
+  eff2dim_Mib2_RunBinp3Timing->Draw("colz");
+  c510a2->SaveAs("EffMib2_2dim_runTim3.png");  
+  TCanvas* c510b2 = new TCanvas("c510b2","c",1);
+  eff2dim_binp3_RunBinp3Timing->Draw("colz");
+  c510b2->SaveAs("EffBinp3_2dim_runTim3.png");  
 
 
   // ==========================================================
