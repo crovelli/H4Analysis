@@ -44,8 +44,8 @@ void ComputeEfficiency() {
 
   // -------------------------------------
   // Denominator: selection based on ref-mcp amplitudes and scintillators
-  TString commonDenAmp = "adc_data>200 && adc_data<700 && n_hitsX>0 && n_hitsY>0 && n_hitsX<3 && n_hitsY<3 && amp_max[MiB2]>200";
-  TString commonDenAndRm2Amp = commonDenAmp + " && amp_max[Rm2]>200 && amp_max[Rm2]<1200";
+  TString commonDenAmp = "adc_data>200 && adc_data<700 && n_hitsX>0 && n_hitsY>0 && n_hitsX<3 && n_hitsY<3 && amp_max[MiB2]>200 && fabs(time_max[MiB2])<150";
+  TString commonDenAndRm2Amp = commonDenAmp + " && amp_max[Rm2]>200 && amp_max[Rm2]<1200 && fabs(time_max[Rm2])<150";
 
   // Compute mean timing distance between Mib2 and Rm2 (not for Binp1 runs, RM2 OFF) - to be added to denominator
   TH1F* tim2_rm2mib2 = new TH1F("tim2_rm2mib2","tim2_rm2mib2",4000,-20.,20.);
@@ -103,14 +103,36 @@ void ComputeEfficiency() {
 
 
   // Compute mean timing distance between Binps and Mib2 - to be added to numerator
+  TH1F* timmax1mib2binp = new TH1F("timmax1mib2binp", "timmax1mib2binp",  4000,-20.,20.);
+  TH1F* timmax2mib2binp = new TH1F("timmax2mib2binp", "timmax2mib2binp",  4000,-20.,20.);
+  TH1F* timmax3mib2binp = new TH1F("timmax3mib2binp", "timmax3mib2binp",  4000,-20.,20.);
+  TH1F* timmax4mib2binp = new TH1F("timmax4mib2binp", "timmax4mib2binp",  4000,-20.,20.);
+  h4binp1->Project("timmax1mib2binp","time_max[BINP1]-time_max[MiB2]",den1s+" && amp_max[BINP1]<3000 && amp_max[BINP1]>20");
+  h4binp2->Project("timmax2mib2binp","time_max[BINP2]-time_max[MiB2]",den2s+" && amp_max[BINP2]<3000 && amp_max[BINP2]>20");
+  h4binp3->Project("timmax3mib2binp","time_max[BINP3]-time_max[MiB2]",den3s+" && amp_max[BINP3]<3000 && amp_max[BINP3]>20");
+  h4binp4->Project("timmax4mib2binp","time_max[BINP4]-time_max[MiB2]",den4s+" && amp_max[BINP4]<3000 && amp_max[BINP4]>20");
+
   TH1F* tim1mib2binp = new TH1F("tim1mib2binp", "tim1mib2binp",  4000,-20.,20.);
   TH1F* tim2mib2binp = new TH1F("tim2mib2binp", "tim2mib2binp",  4000,-20.,20.);
   TH1F* tim3mib2binp = new TH1F("tim3mib2binp", "tim3mib2binp",  4000,-20.,20.);
   TH1F* tim4mib2binp = new TH1F("tim4mib2binp", "tim4mib2binp",  4000,-20.,20.);
-  h4binp1->Project("tim1mib2binp","time_max[BINP1]-time_max[MiB2]",den1s+" && amp_max[BINP1]<3000 && amp_max[BINP1]>20");
-  h4binp2->Project("tim2mib2binp","time_max[BINP2]-time_max[MiB2]",den2s+" && amp_max[BINP2]<3000 && amp_max[BINP2]>20");
-  h4binp3->Project("tim3mib2binp","time_max[BINP3]-time_max[MiB2]",den3s+" && amp_max[BINP3]<3000 && amp_max[BINP3]>20");
-  h4binp4->Project("tim4mib2binp","time_max[BINP4]-time_max[MiB2]",den4s+" && amp_max[BINP4]<3000 && amp_max[BINP4]>20");
+  h4binp1->Project("tim1mib2binp","time[BINP1]-time[MiB2]",den1s+" && amp_max[BINP1]<3000 && amp_max[BINP1]>20");
+  h4binp2->Project("tim2mib2binp","time[BINP2]-time[MiB2]",den2s+" && amp_max[BINP2]<3000 && amp_max[BINP2]>20");
+  h4binp3->Project("tim3mib2binp","time[BINP3]-time[MiB2]",den3s+" && amp_max[BINP3]<3000 && amp_max[BINP3]>20");
+  h4binp4->Project("tim4mib2binp","time[BINP4]-time[MiB2]",den4s+" && amp_max[BINP4]<3000 && amp_max[BINP4]>20");
+
+  char mean1max_mib2binp[100];
+  char mean2max_mib2binp[100];
+  char mean3max_mib2binp[100];
+  char mean4max_mib2binp[100];
+  sprintf(mean1max_mib2binp,"%f",timmax1mib2binp->GetMean());
+  sprintf(mean2max_mib2binp,"%f",timmax2mib2binp->GetMean());
+  sprintf(mean3max_mib2binp,"%f",timmax3mib2binp->GetMean());
+  sprintf(mean4max_mib2binp,"%f",timmax4mib2binp->GetMean());
+  std::string sMean1max_mib2binp = std::string(mean1max_mib2binp);
+  std::string sMean2max_mib2binp = std::string(mean2max_mib2binp);
+  std::string sMean3max_mib2binp = std::string(mean3max_mib2binp);
+  std::string sMean4max_mib2binp = std::string(mean4max_mib2binp);
 
   char mean1_mib2binp[100];
   char mean2_mib2binp[100];
@@ -125,33 +147,68 @@ void ComputeEfficiency() {
   std::string sMean3_mib2binp = std::string(mean3_mib2binp);
   std::string sMean4_mib2binp = std::string(mean4_mib2binp);
 
+  TString numAmpTim1max;
+  if(timmax1mib2binp->GetMean() < 0.){
+    sMean1max_mib2binp.erase(sMean1max_mib2binp.begin(),sMean1max_mib2binp.begin()+1);
+    numAmpTim1max = den1s+std::string(" && (amp_max[BINP1]>3000 || (amp_max[BINP1]<3000 && fabs(time_max[BINP1]-time_max[MiB2]+")+std::string(sMean1max_mib2binp)+std::string(")<1))");
+    } else { 
+    numAmpTim1max = den1s+std::string(" && (amp_max[BINP1]>3000 || (amp_max[BINP1]<3000 && fabs(time_max[BINP1]-time_max[MiB2]-")+std::string(sMean1max_mib2binp)+std::string(")<1))");
+  }
+
   TString numAmpTim1;
   if(tim1mib2binp->GetMean() < 0.){
     sMean1_mib2binp.erase(sMean1_mib2binp.begin(),sMean1_mib2binp.begin()+1);
-    numAmpTim1 = den1s+std::string(" && (amp_max[BINP1]>3000 || (amp_max[BINP1]<3000 && fabs(time_max[BINP1]-time_max[MiB2]+")+std::string(sMean1_mib2binp)+std::string(")<1))");
+    numAmpTim1 = numAmpTim1max+std::string(" && (amp_max[BINP1]>3000 || (amp_max[BINP1]<3000 && fabs(time[BINP1]-time[MiB2]+")+std::string(sMean1_mib2binp)+std::string(")<1))");
     } else { 
-    numAmpTim1 = den1s+std::string(" && (amp_max[BINP1]>3000 || (amp_max[BINP1]<3000 && fabs(time_max[BINP1]-time_max[MiB2]-")+std::string(sMean1_mib2binp)+std::string(")<1))");
+    numAmpTim1 = numAmpTim1max+std::string(" && (amp_max[BINP1]>3000 || (amp_max[BINP1]<3000 && fabs(time[BINP1]-time[MiB2]-")+std::string(sMean1_mib2binp)+std::string(")<1))");
   }
+
+  TString numAndRm2AmpTim2max;
+  if(timmax2mib2binp->GetMean() < 0.){
+    sMean2max_mib2binp.erase(sMean2max_mib2binp.begin(),sMean2max_mib2binp.begin()+1);
+    numAndRm2AmpTim2max = den2s+std::string(" && (amp_max[BINP2]>3000 || (amp_max[BINP2]<3000 && fabs(time_max[BINP2]-time_max[MiB2]+")+std::string(sMean2max_mib2binp)+std::string(")<1))");
+    } else { 
+    numAndRm2AmpTim2max = den2s+std::string(" && (amp_max[BINP2]>3000 || (amp_max[BINP2]<3000 && fabs(time_max[BINP2]-time_max[MiB2]-")+std::string(sMean2max_mib2binp)+std::string(")<1))");
+  }
+
   TString numAndRm2AmpTim2;
   if(tim2mib2binp->GetMean() < 0.){
     sMean2_mib2binp.erase(sMean2_mib2binp.begin(),sMean2_mib2binp.begin()+1);
-    numAndRm2AmpTim2 = den2s+std::string(" && (amp_max[BINP2]>3000 || (amp_max[BINP2]<3000 && fabs(time_max[BINP2]-time_max[MiB2]+")+std::string(sMean2_mib2binp)+std::string(")<1))");
+    numAndRm2AmpTim2 = numAndRm2AmpTim2max+std::string(" && (amp_max[BINP2]>3000 || (amp_max[BINP2]<3000 && fabs(time[BINP2]-time[MiB2]+")+std::string(sMean2_mib2binp)+std::string(")<1))");
     } else { 
-    numAndRm2AmpTim2 = den2s+std::string(" && (amp_max[BINP2]>3000 || (amp_max[BINP2]<3000 && fabs(time_max[BINP2]-time_max[MiB2]-")+std::string(sMean2_mib2binp)+std::string(")<1))");
+    numAndRm2AmpTim2 = numAndRm2AmpTim2max+std::string(" && (amp_max[BINP2]>3000 || (amp_max[BINP2]<3000 && fabs(time[BINP2]-time[MiB2]-")+std::string(sMean2_mib2binp)+std::string(")<1))");
   }
+
+  TString numAndRm2AmpTim3max;
+  if(timmax3mib2binp->GetMean() < 0.){
+    sMean3max_mib2binp.erase(sMean3max_mib2binp.begin(),sMean3max_mib2binp.begin()+1);
+    numAndRm2AmpTim3max = den3s+std::string(" && (amp_max[BINP3]>3000 || (amp_max[BINP3]<3000 && fabs(time_max[BINP3]-time_max[MiB2]+")+std::string(sMean3max_mib2binp)+std::string(")<1))");
+    } else { 
+    numAndRm2AmpTim3max = den3s+std::string(" && (amp_max[BINP3]>3000 || (amp_max[BINP3]<3000 && fabs(time_max[BINP3]-time_max[MiB2]-")+std::string(sMean3max_mib2binp)+std::string(")<1))");
+  }
+
   TString numAndRm2AmpTim3;
   if(tim3mib2binp->GetMean() < 0.){
     sMean3_mib2binp.erase(sMean3_mib2binp.begin(),sMean3_mib2binp.begin()+1);
-    numAndRm2AmpTim3 = den3s+std::string(" && (amp_max[BINP3]>3000 || (amp_max[BINP3]<3000 && fabs(time_max[BINP3]-time_max[MiB2]+")+std::string(sMean3_mib2binp)+std::string(")<1))");
+    numAndRm2AmpTim3 = numAndRm2AmpTim3max+std::string(" && (amp_max[BINP3]>3000 || (amp_max[BINP3]<3000 && fabs(time[BINP3]-time[MiB2]+")+std::string(sMean3_mib2binp)+std::string(")<1))");
     } else { 
-    numAndRm2AmpTim3 = den3s+std::string(" && (amp_max[BINP3]>3000 || (amp_max[BINP3]<3000 && fabs(time_max[BINP3]-time_max[MiB2]-")+std::string(sMean3_mib2binp)+std::string(")<1))");
+    numAndRm2AmpTim3 = numAndRm2AmpTim3max+std::string(" && (amp_max[BINP3]>3000 || (amp_max[BINP3]<3000 && fabs(time[BINP3]-time[MiB2]-")+std::string(sMean3_mib2binp)+std::string(")<1))");
   }
+
+  TString numAndRm2AmpTim4max;
+  if(timmax4mib2binp->GetMean() < 0.){
+    sMean4max_mib2binp.erase(sMean4max_mib2binp.begin(),sMean4max_mib2binp.begin()+1);
+    numAndRm2AmpTim4max = den4s+std::string(" && (amp_max[BINP4]>3000 || (amp_max[BINP4]<3000 && fabs(time_max[BINP4]-time_max[MiB2]+")+std::string(sMean4max_mib2binp)+std::string(")<1))");
+    } else { 
+    numAndRm2AmpTim4max = den4s+std::string(" && (amp_max[BINP4]>3000 || (amp_max[BINP4]<3000 && fabs(time_max[BINP4]-time_max[MiB2]-")+std::string(sMean4max_mib2binp)+std::string(")<1))");
+  }
+
   TString numAndRm2AmpTim4;
   if(tim4mib2binp->GetMean() < 0.){
     sMean4_mib2binp.erase(sMean4_mib2binp.begin(),sMean4_mib2binp.begin()+1);
-    numAndRm2AmpTim4 = den4s+std::string(" && (amp_max[BINP4]>3000 || (amp_max[BINP4]<3000 && fabs(time_max[BINP4]-time_max[MiB2]+")+std::string(sMean4_mib2binp)+std::string(")<1))");
+    numAndRm2AmpTim4 = numAndRm2AmpTim4max+std::string(" && (amp_max[BINP4]>3000 || (amp_max[BINP4]<3000 && fabs(time[BINP4]-time[MiB2]+")+std::string(sMean4_mib2binp)+std::string(")<1))");
     } else { 
-    numAndRm2AmpTim4 = den4s+std::string(" && (amp_max[BINP4]>3000 || (amp_max[BINP4]<3000 && fabs(time_max[BINP4]-time_max[MiB2]-")+std::string(sMean4_mib2binp)+std::string(")<1))");
+    numAndRm2AmpTim4 = numAndRm2AmpTim4max+std::string(" && (amp_max[BINP4]>3000 || (amp_max[BINP4]<3000 && fabs(time[BINP4]-time[MiB2]-")+std::string(sMean4_mib2binp)+std::string(")<1))");
   }
 
   // numerators
@@ -313,10 +370,21 @@ void ComputeEfficiency() {
   TH1F* tim124_mib2binp2 = new TH1F("tim124_mib2binp2", "tim124_mib2binp2",  4000,-20.,20.);
   TH1F* tim124_mib2binp4 = new TH1F("tim124_mib2binp4", "tim124_mib2binp4",  4000,-20.,20.);
   TH1F* tim3_mib2binp3   = new TH1F("tim3_mib2binp3",   "tim3_mib2binp3",    4000,-20.,20.);
-  h4timing124->Project("tim124_mib2binp1","time_max[BINP1]-time_max[MiB2]",den124_timingRuns+" && amp_max[BINP1]<3000 && amp_max[BINP1]>20");
-  h4timing124->Project("tim124_mib2binp2","time_max[BINP2]-time_max[MiB2]",den124_timingRuns+" && amp_max[BINP2]<3000 && amp_max[BINP2]>20");
-  h4timing124->Project("tim124_mib2binp4","time_max[BINP4]-time_max[MiB2]",den124_timingRuns+" && amp_max[BINP4]<3000 && amp_max[BINP4]>20");
-  h4timing3->Project("tim3_mib2binp3","time_max[BINP3]-time_max[MiB2]",den3_timingRuns+" && amp_max[BINP3]<3000 && amp_max[BINP3]>20");
+
+  TH1F* timmax124_mib2binp1 = new TH1F("timmax124_mib2binp1", "timmax124_mib2binp1",  4000,-20.,20.);
+  TH1F* timmax124_mib2binp2 = new TH1F("timmax124_mib2binp2", "timmax124_mib2binp2",  4000,-20.,20.);
+  TH1F* timmax124_mib2binp4 = new TH1F("timmax124_mib2binp4", "timmax124_mib2binp4",  4000,-20.,20.);
+  TH1F* timmax3_mib2binp3   = new TH1F("timmax3_mib2binp3",   "timmax3_mib2binp3",    4000,-20.,20.);
+
+  h4timing124->Project("tim124_mib2binp1","time[BINP1]-time[MiB2]",den124_timingRuns+" && amp_max[BINP1]<3000 && amp_max[BINP1]>20");
+  h4timing124->Project("tim124_mib2binp2","time[BINP2]-time[MiB2]",den124_timingRuns+" && amp_max[BINP2]<3000 && amp_max[BINP2]>20");
+  h4timing124->Project("tim124_mib2binp4","time[BINP4]-time[MiB2]",den124_timingRuns+" && amp_max[BINP4]<3000 && amp_max[BINP4]>20");
+  h4timing3->Project("tim3_mib2binp3","time[BINP3]-time[MiB2]",den3_timingRuns+" && amp_max[BINP3]<3000 && amp_max[BINP3]>20");
+
+  h4timing124->Project("timmax124_mib2binp1","time_max[BINP1]-time_max[MiB2]",den124_timingRuns+" && amp_max[BINP1]<3000 && amp_max[BINP1]>20");
+  h4timing124->Project("timmax124_mib2binp2","time_max[BINP2]-time_max[MiB2]",den124_timingRuns+" && amp_max[BINP2]<3000 && amp_max[BINP2]>20");
+  h4timing124->Project("timmax124_mib2binp4","time_max[BINP4]-time_max[MiB2]",den124_timingRuns+" && amp_max[BINP4]<3000 && amp_max[BINP4]>20");
+  h4timing3  ->Project("timmax3_mib2binp3","time_max[BINP3]-time_max[MiB2]",den3_timingRuns+" && amp_max[BINP3]<3000 && amp_max[BINP3]>20");
 
   char mean1tim_mib2binp[100];
   char mean2tim_mib2binp[100];
@@ -331,33 +399,77 @@ void ComputeEfficiency() {
   std::string sMean3tim_mib2binp = std::string(mean3tim_mib2binp);
   std::string sMean4tim_mib2binp = std::string(mean4tim_mib2binp);
 
+  char mean1timmax_mib2binp[100];
+  char mean2timmax_mib2binp[100];
+  char mean3timmax_mib2binp[100];
+  char mean4timmax_mib2binp[100];
+  sprintf(mean1timmax_mib2binp,"%f",timmax124_mib2binp1->GetMean());
+  sprintf(mean2timmax_mib2binp,"%f",timmax124_mib2binp2->GetMean());
+  sprintf(mean3timmax_mib2binp,"%f",timmax3_mib2binp3->GetMean());
+  sprintf(mean4timmax_mib2binp,"%f",timmax124_mib2binp4->GetMean());
+  std::string sMean1timmax_mib2binp = std::string(mean1timmax_mib2binp);
+  std::string sMean2timmax_mib2binp = std::string(mean2timmax_mib2binp);
+  std::string sMean3timmax_mib2binp = std::string(mean3timmax_mib2binp);
+  std::string sMean4timmax_mib2binp = std::string(mean4timmax_mib2binp);
+
+  TString num1max_timingRuns;
+  if(timmax124_mib2binp1->GetMean() < 0.){
+    sMean1timmax_mib2binp.erase(sMean1timmax_mib2binp.begin(),sMean1timmax_mib2binp.begin()+1);
+    num1max_timingRuns = den124_timingRuns+std::string(" && (amp_max[BINP1]>3000 || (amp_max[BINP1]<3000 && fabs(time_max[BINP1]-time_max[MiB2]+")+std::string(sMean1timmax_mib2binp)+std::string(")<1))");
+    } else { 
+    num1max_timingRuns = den124_timingRuns+std::string(" && (amp_max[BINP1]>3000 || (amp_max[BINP1]<3000 && fabs(time_max[BINP1]-time_max[MiB2]-")+std::string(sMean1timmax_mib2binp)+std::string(")<1))");
+  }					       
   TString num1_timingRuns;
   if(tim124_mib2binp1->GetMean() < 0.){
     sMean1tim_mib2binp.erase(sMean1tim_mib2binp.begin(),sMean1tim_mib2binp.begin()+1);
-    num1_timingRuns = den124_timingRuns+std::string(" && (amp_max[BINP1]>3000 || (amp_max[BINP1]<3000 && fabs(time_max[BINP1]-time_max[MiB2]+")+std::string(sMean1tim_mib2binp)+std::string(")<1))");
+    num1_timingRuns = num1max_timingRuns+std::string(" && (amp_max[BINP1]>3000 || (amp_max[BINP1]<3000 && fabs(time[BINP1]-time[MiB2]+")+std::string(sMean1tim_mib2binp)+std::string(")<1))");
     } else { 
-    num1_timingRuns = den124_timingRuns+std::string(" && (amp_max[BINP1]>3000 || (amp_max[BINP1]<3000 && fabs(time_max[BINP1]-time_max[MiB2]-")+std::string(sMean1tim_mib2binp)+std::string(")<1))");
+    num1_timingRuns = num1max_timingRuns+std::string(" && (amp_max[BINP1]>3000 || (amp_max[BINP1]<3000 && fabs(time[BINP1]-time[MiB2]-")+std::string(sMean1tim_mib2binp)+std::string(")<1))");
+  }					       
+
+  TString num2max_timingRuns;
+  if(timmax124_mib2binp2->GetMean() < 0.){
+    sMean2timmax_mib2binp.erase(sMean2timmax_mib2binp.begin(),sMean2timmax_mib2binp.begin()+1);
+    num2max_timingRuns = den124_timingRuns+std::string(" && (amp_max[BINP2]>3000 || (amp_max[BINP2]<3000 && fabs(time_max[BINP2]-time_max[MiB2]+")+std::string(sMean2timmax_mib2binp)+std::string(")<1))");
+    } else { 
+    num2max_timingRuns = den124_timingRuns+std::string(" && (amp_max[BINP2]>3000 || (amp_max[BINP2]<3000 && fabs(time_max[BINP2]-time_max[MiB2]-")+std::string(sMean2timmax_mib2binp)+std::string(")<1))");
   }					       
   TString num2_timingRuns;
   if(tim124_mib2binp2->GetMean() < 0.){
     sMean2tim_mib2binp.erase(sMean2tim_mib2binp.begin(),sMean2tim_mib2binp.begin()+1);
-    num2_timingRuns = den124_timingRuns+std::string(" && (amp_max[BINP2]>3000 || (amp_max[BINP2]<3000 && fabs(time_max[BINP2]-time_max[MiB2]+")+std::string(sMean2tim_mib2binp)+std::string(")<1))");
+    num2_timingRuns = num2max_timingRuns+std::string(" && (amp_max[BINP2]>3000 || (amp_max[BINP2]<3000 && fabs(time[BINP2]-time[MiB2]+")+std::string(sMean2tim_mib2binp)+std::string(")<1))");
     } else { 
-    num2_timingRuns = den124_timingRuns+std::string(" && (amp_max[BINP2]>3000 || (amp_max[BINP2]<3000 && fabs(time_max[BINP2]-time_max[MiB2]-")+std::string(sMean2tim_mib2binp)+std::string(")<1))");
+    num2_timingRuns = num2max_timingRuns+std::string(" && (amp_max[BINP2]>3000 || (amp_max[BINP2]<3000 && fabs(time[BINP2]-time[MiB2]-")+std::string(sMean2tim_mib2binp)+std::string(")<1))");
+  }					       
+
+  TString num3max_timingRuns;
+  if(timmax3_mib2binp3->GetMean() < 0.){
+    sMean3timmax_mib2binp.erase(sMean3timmax_mib2binp.begin(),sMean3timmax_mib2binp.begin()+1);
+    num3max_timingRuns = den3_timingRuns+std::string(" && (amp_max[BINP3]>3000 || (amp_max[BINP3]<3000 && fabs(time_max[BINP3]-time_max[MiB2]+")+std::string(sMean3timmax_mib2binp)+std::string(")<1))");
+    } else { 
+    num3max_timingRuns = den3_timingRuns+std::string(" && (amp_max[BINP3]>3000 || (amp_max[BINP3]<3000 && fabs(time_max[BINP3]-time_max[MiB2]-")+std::string(sMean3timmax_mib2binp)+std::string(")<1))");
   }					       
   TString num3_timingRuns;
   if(tim3_mib2binp3->GetMean() < 0.){
     sMean3tim_mib2binp.erase(sMean3tim_mib2binp.begin(),sMean3tim_mib2binp.begin()+1);
-    num3_timingRuns = den3_timingRuns+std::string(" && (amp_max[BINP3]>3000 || (amp_max[BINP3]<3000 && fabs(time_max[BINP3]-time_max[MiB2]+")+std::string(sMean3tim_mib2binp)+std::string(")<1))");
+    num3_timingRuns = num3max_timingRuns+std::string(" && (amp_max[BINP3]>3000 || (amp_max[BINP3]<3000 && fabs(time[BINP3]-time[MiB2]+")+std::string(sMean3tim_mib2binp)+std::string(")<1))");
     } else { 
-    num3_timingRuns = den3_timingRuns+std::string(" && (amp_max[BINP3]>3000 || (amp_max[BINP3]<3000 && fabs(time_max[BINP3]-time_max[MiB2]-")+std::string(sMean3tim_mib2binp)+std::string(")<1))");
+    num3_timingRuns = num3max_timingRuns+std::string(" && (amp_max[BINP3]>3000 || (amp_max[BINP3]<3000 && fabs(time[BINP3]-time[MiB2]-")+std::string(sMean3tim_mib2binp)+std::string(")<1))");
+  }					       
+
+  TString num4max_timingRuns;
+  if(timmax124_mib2binp4->GetMean() < 0.){
+    sMean4timmax_mib2binp.erase(sMean4timmax_mib2binp.begin(),sMean4timmax_mib2binp.begin()+1);
+    num4max_timingRuns = den124_timingRuns+std::string(" && (amp_max[BINP4]>3000 || (amp_max[BINP4]<3000 && fabs(time_max[BINP4]-time_max[MiB2]+")+std::string(sMean4timmax_mib2binp)+std::string(")<1))");
+    } else { 
+    num4max_timingRuns = den124_timingRuns+std::string(" && (amp_max[BINP4]>3000 || (amp_max[BINP4]<3000 && fabs(time_max[BINP4]-time_max[MiB2]-")+std::string(sMean4timmax_mib2binp)+std::string(")<1))");
   }					       
   TString num4_timingRuns;
   if(tim124_mib2binp4->GetMean() < 0.){
     sMean4tim_mib2binp.erase(sMean4tim_mib2binp.begin(),sMean4tim_mib2binp.begin()+1);
-    num4_timingRuns = den124_timingRuns+std::string(" && (amp_max[BINP4]>3000 || (amp_max[BINP4]<3000 && fabs(time_max[BINP4]-time_max[MiB2]+")+std::string(sMean4tim_mib2binp)+std::string(")<1))");
+    num4_timingRuns = num4max_timingRuns+std::string(" && (amp_max[BINP4]>3000 || (amp_max[BINP4]<3000 && fabs(time[BINP4]-time[MiB2]+")+std::string(sMean4tim_mib2binp)+std::string(")<1))");
     } else { 
-    num4_timingRuns = den124_timingRuns+std::string(" && (amp_max[BINP4]>3000 || (amp_max[BINP4]<3000 && fabs(time_max[BINP4]-time_max[MiB2]-")+std::string(sMean4tim_mib2binp)+std::string(")<1))");
+    num4_timingRuns = num4max_timingRuns+std::string(" && (amp_max[BINP4]>3000 || (amp_max[BINP4]<3000 && fabs(time[BINP4]-time[MiB2]-")+std::string(sMean4tim_mib2binp)+std::string(")<1))");
   }					       
 
   // numerators for timing runs
