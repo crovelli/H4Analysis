@@ -220,7 +220,8 @@ void HodoCam() {
   }
 
   // denominators
-  TString commonDen = "adc_data>200 && adc_data<700 && amp_max[MiB2]>200 && amp_max[Rm2]>200 && amp_max[Rm2]<1200";
+  //TString commonDen = "adc_data>200 && adc_data<700 && amp_max[MiB2]>200 && amp_max[Rm2]>200 && amp_max[Rm2]<1200";
+  TString commonDen = "adc_data>200 && adc_data<700 && amp_max[MiB2]>200 && amp_max[Rm2]>200 && amp_max[Rm2]<1200 && n_hitsX>0 && n_hitsX<3 && n_hitsY>0 && n_hitsY<3";
   TString commonDen700  = commonDen + " && HVAMP==700";
   TString commonDen1000 = commonDen + " && HVAMP==1000";
   TString commonDen1200 = commonDen + " && HVAMP==1200";
@@ -907,7 +908,8 @@ void HodoCam() {
 
 
   // Mib10, Mid=700
-  TString denMib10700 = "adc_data>200 && adc_data<700 && HVAMP==700 && run==2434";
+  //TString denMib10700 = "adc_data>200 && adc_data<700 && HVAMP==700 && run==2434";
+  TString denMib10700 = "adc_data>200 && adc_data<700 && HVAMP==700 && run==2434 && n_hitsX>0 && n_hitsX<3 && n_hitsY>0 && n_hitsY<3";  
   TString numMib10700_mib2  = denMib10700 + " && amp_max[MiB2]>20";
   TString numMib10700_rm2   = denMib10700 + " && amp_max[Rm2]>20";
   TString numMib10700_mib10 = denMib10700 + " && amp_max[M10]>20";
@@ -977,7 +979,8 @@ void HodoCam() {
 
 
   // Mib10, Mid=1000
-  TString denMib101000 = "adc_data>200 && adc_data<700 && HVAMP==1000 && run==2436";
+  //TString denMib101000 = "adc_data>200 && adc_data<700 && HVAMP==1000 && run==2436";
+  TString denMib101000 = "adc_data>200 && adc_data<700 && HVAMP==1000 && run==2436 && n_hitsX>0 && n_hitsX<3 && n_hitsY>0 && n_hitsY<3";  
   TString numMib101000_mib2  = denMib101000 + " && amp_max[MiB2]>20";
   TString numMib101000_rm2   = denMib101000 + " && amp_max[Rm2]>20";
   TString numMib101000_mib10 = denMib101000 + " && amp_max[M10]>20";
@@ -1048,7 +1051,8 @@ void HodoCam() {
 
 
   // Mib25, Mid=700
-  TString denMib25700 = "adc_data>200 && adc_data<700 && HVAMP==700 && run==2428";
+  //TString denMib25700 = "adc_data>200 && adc_data<700 && HVAMP==700 && run==2428";
+  TString denMib25700 = "adc_data>200 && adc_data<700 && HVAMP==700 && run==2428 && n_hitsX>0 && n_hitsX<3 && n_hitsY>0 && n_hitsY<3";  
   TString numMib25700_mib2  = denMib25700 + " && amp_max[MiB2]>20";
   TString numMib25700_rm2   = denMib25700 + " && amp_max[Rm2]>20";
   TString numMib25700_mib25 = denMib25700 + " && amp_max[M25]>20";
@@ -1118,7 +1122,8 @@ void HodoCam() {
 
 
   // Mib25, Mid=1000
-  TString denMib251000 = "adc_data>200 && adc_data<700 && HVAMP==1000 && run==2431";
+  //TString denMib251000 = "adc_data>200 && adc_data<700 && HVAMP==1000 && run==2431";
+  TString denMib251000 = "adc_data>200 && adc_data<700 && HVAMP==1000 && run==2431 && n_hitsX>0 && n_hitsX<3 && n_hitsY>0 && n_hitsY<3";  
   TString numMib251000_mib2  = denMib251000 + " && amp_max[MiB2]>20";
   TString numMib251000_rm2   = denMib251000 + " && amp_max[Rm2]>20";
   TString numMib251000_mib25 = denMib251000 + " && amp_max[M25]>20";
@@ -1189,7 +1194,8 @@ void HodoCam() {
 
 
   // Mib25, Mid=1200
-  TString denMib251200 = "adc_data>200 && adc_data<700 && HVAMP==1200 && run==2529";
+  //TString denMib251200 = "adc_data>200 && adc_data<700 && HVAMP==1200 && run==2529";
+  TString denMib251200 = "adc_data>200 && adc_data<700 && HVAMP==1200 && run==2529 && n_hitsX>0 && n_hitsX<3 && n_hitsY>0 && n_hitsY<3";  
   TString numMib251200_mib2  = denMib251200 + " && amp_max[MiB2]>20";
   TString numMib251200_rm2   = denMib251200 + " && amp_max[Rm2]>20";
   TString numMib251200_mib25 = denMib251200 + " && amp_max[M25]>20";
@@ -1260,7 +1266,8 @@ void HodoCam() {
 
 
   // Rm5, Mid=700
-  TString denRm5700 = "adc_data>200 && adc_data<700 && HVAMP==700 && run==2493";
+  //TString denRm5700 = "adc_data>200 && adc_data<700 && HVAMP==700 && run==2493";
+  TString denRm5700 = "adc_data>200 && adc_data<700 && HVAMP==700 && run==2493 && n_hitsX>0 && n_hitsX<3 && n_hitsY>0 && n_hitsY<3";  
   TString numRm5700_mib2 = denRm5700 + " && amp_max[MiB2]>20";
   TString numRm5700_rm2  = denRm5700 + " && amp_max[Rm2]>20";
   TString numRm5700_rm5  = denRm5700 + " && amp_max[M5]>20";
@@ -1330,7 +1337,8 @@ void HodoCam() {
 
 
   // Rm5, Mid=1000
-  TString denRm51000 = "adc_data>200 && adc_data<700 && HVAMP==1000 && run==2490";
+  //TString denRm51000 = "adc_data>200 && adc_data<700 && HVAMP==1000 && run==2490";
+  TString denRm51000 = "adc_data>200 && adc_data<700 && HVAMP==1000 && run==2490 && n_hitsX>0 && n_hitsX<3 && n_hitsY>0 && n_hitsY<3";  
   TString numRm51000_mib2 = denRm51000 + " && amp_max[MiB2]>20";
   TString numRm51000_rm2  = denRm51000 + " && amp_max[Rm2]>20";
   TString numRm51000_rm5  = denRm51000 + " && amp_max[M5]>20";
@@ -1400,7 +1408,8 @@ void HodoCam() {
 
 
   // Rm5, Mid=1200
-  TString denRm51200 = "adc_data>200 && adc_data<700 && HVAMP==1200 && run==2487";
+  //TString denRm51200 = "adc_data>200 && adc_data<700 && HVAMP==1200 && run==2487";
+  TString denRm51200 = "adc_data>200 && adc_data<700 && HVAMP==1200 && run==2487 && n_hitsX>0 && n_hitsX<3 && n_hitsY>0 && n_hitsY<3";  
   TString numRm51200_mib2 = denRm51200 + " && amp_max[MiB2]>20";
   TString numRm51200_rm2  = denRm51200 + " && amp_max[Rm2]>20";
   TString numRm51200_rm5  = denRm51200 + " && amp_max[M5]>20";
@@ -1470,7 +1479,8 @@ void HodoCam() {
 
 
   // Rm8, Mid=700
-  TString denRm8700 = "adc_data>200 && adc_data<700 && HVAMP==700 && run==2496";
+  //TString denRm8700 = "adc_data>200 && adc_data<700 && HVAMP==700 && run==2496";
+  TString denRm8700 = "adc_data>200 && adc_data<700 && HVAMP==700 && run==2496 && n_hitsX>0 && n_hitsX<3 && n_hitsY>0 && n_hitsY<3";  
   TString numRm8700_mib2 = denRm8700 + " && amp_max[MiB2]>20";
   TString numRm8700_rm2  = denRm8700 + " && amp_max[Rm2]>20";
   TString numRm8700_rm8  = denRm8700 + " && amp_max[M8]>20";
@@ -1540,7 +1550,8 @@ void HodoCam() {
 
 
   // Rm8, Mid=1000
-  TString denRm81000 = "adc_data>200 && adc_data<700 && HVAMP==1000 && run==2499";
+  //TString denRm81000 = "adc_data>200 && adc_data<700 && HVAMP==1000 && run==2499";
+  TString denRm81000 = "adc_data>200 && adc_data<700 && HVAMP==1000 && run==2499 && n_hitsX>0 && n_hitsX<3 && n_hitsY>0 && n_hitsY<3";  
   TString numRm81000_mib2 = denRm81000 + " && amp_max[MiB2]>20";
   TString numRm81000_rm2  = denRm81000 + " && amp_max[Rm2]>20";
   TString numRm81000_rm8  = denRm81000 + " && amp_max[M8]>20";
@@ -1610,7 +1621,8 @@ void HodoCam() {
 
 
   // Rm8, Mid=1200
-  TString denRm81200 = "adc_data>200 && adc_data<700 && HVAMP==1200 && run==2502";
+  //TString denRm81200 = "adc_data>200 && adc_data<700 && HVAMP==1200 && run==2502";
+  TString denRm81200 = "adc_data>200 && adc_data<700 && HVAMP==1200 && run==2502 && n_hitsX>0 && n_hitsX<3 && n_hitsY>0 && n_hitsY<3";  
   TString numRm81200_mib2 = denRm81200 + " && amp_max[MiB2]>20";
   TString numRm81200_rm2  = denRm81200 + " && amp_max[Rm2]>20";
   TString numRm81200_rm8  = denRm81200 + " && amp_max[M8]>20";
