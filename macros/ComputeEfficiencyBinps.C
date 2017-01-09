@@ -117,7 +117,7 @@ void ComputeEfficiency() {
     denAndRm2AmpTim4 = commonDenAndRm2Amp+std::string(" && HVBINP4==2400 && fabs(time_max[Rm2]-time_max[MiB2]-")+std::string(sMean4_rm2mib2)+std::string(")<1");
   }
 
-  h4binp2->Project("den1b","HVBINP2",denAndRm2AmpTim1);
+  h4binp1->Project("den1b","HVBINP1",denAndRm2AmpTim1);
   h4binp2->Project("den2b","HVBINP2",denAndRm2AmpTim2);
   h4binp3->Project("den3b","HVBINP3",denAndRm2AmpTim3);
   h4binp4->Project("den4b","HVBINP4",denAndRm2AmpTim4);
