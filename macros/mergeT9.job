@@ -1,0 +1,62 @@
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_10m_B_4562.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_10m_B_4563.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_10m_B_4564.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_10m_B_4576.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_10m_B_4577.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_10m_B_4578.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_10m_B_4579.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_10m_B_4580.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_10m_B_4581.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_10m_B_4582.root .
+hadd T9_HVscanMib10mu_mid1000.root t92016_MiB_10m_B_4*root
+rm t92016_MiB_10m_B_4*root
+
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_10m_B_4567.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_10m_B_4568.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_10m_B_4569.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_10m_B_4570.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_10m_B_4571.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_10m_B_4572.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_10m_B_4573.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_10m_B_4574.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_10m_B_4575.root .
+hadd T9_HVscanMib10mu_mid1200.root t92016_MiB_10m_B_4*root
+rm t92016_MiB_10m_B_4*root
+
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_A_4521.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_A_4522.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_A_4523.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_A_4524.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_A_4525.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_A_4526.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_A_4527.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_A_4528.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_A_4529.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_A_4530.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_A_4531.root .
+hadd T9_HVscanMib25mu_mid1000.root t92016_MiB_25m_A_4*root
+rm t92016_MiB_25m_A_4*root 
+
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_A_4537.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_A_4538.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_A_4539.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_A_4540.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_A_4542.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_A_4543.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_A_4544.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_A_4545.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_A_4546.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_A_4547.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_A_4552.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_A_4553.root .
+hadd T9_HVscanMib25mu_mid1300.root t92016_MiB_25m_A_4*root
+rm t92016_MiB_25m_A_4*root 
+
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_B_4585.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_B_4586.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_B_4587.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_B_4588.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_B_4589.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_B_4590.root .
+hadd T9_HVscanMib25mu_mid1200.root t92016_MiB_25m_B_4*root
+rm t92016_MiB_25m_B_4*root
