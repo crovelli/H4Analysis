@@ -3,12 +3,27 @@
 #include "TStyle.h" 
 #include "TH1.h" 
 #include "TH2.h" 
+#include "TF1.h" 
 #include "TCanvas.h"
 #include "TLegend.h"
 #include "TGraphAsymmErrors.h" 
 #include <iostream>
 
 using namespace std;
+
+Double_t fitfunc(Double_t *v, Double_t *par) {
+
+  Double_t arg = 0;
+  if (par[3] != 0) arg = v[0]/par[3];
+
+  Double_t fitval;
+  if (arg>1)
+    fitval = par[0] + (par[1]*(1.- (1./(par[2]*log(arg)+1))));
+  else
+    fitval = 0;
+  
+  return fitval;
+}
 
 void ComputeEfficiency() {
 
@@ -236,8 +251,8 @@ void ComputeEfficiency() {
   TGraphAsymmErrors* eff3 = new TGraphAsymmErrors(num3,den3);
   TGraphAsymmErrors* eff4 = new TGraphAsymmErrors(num4,den4);
   eff1->SetMarkerStyle(20);
-  eff1->SetMarkerColor(1);
-  eff1->SetLineColor(1);
+  eff1->SetMarkerColor(6);
+  eff1->SetLineColor(6);
   eff2->SetMarkerStyle(21);
   eff2->SetMarkerColor(2);
   eff2->SetLineColor(2);
@@ -247,6 +262,56 @@ void ComputeEfficiency() {
   eff4->SetMarkerStyle(23);
   eff4->SetMarkerColor(4);
   eff4->SetLineColor(4);
+
+  // Fitting function
+  TF1 *func = new TF1("fit",fitfunc,0.,2500.,4);
+  //func->SetParLimits(1,0,1);
+
+  cout << endl;
+  cout << "Binp1 " << endl;
+  func->SetParameters(0.2,1.,1,1200);
+  eff1->Fit("fit","","",1200,2400);
+  eff1->GetFunction("fit")->SetLineColor(1);
+  float p3 = eff1->GetFunction("fit")->GetParameter(3);
+  int VthrI = (int)p3 + 1;
+  func->SetParameters(0.2,1.,1,1200);
+  eff1->Fit("fit","","",VthrI,2400);
+  eff1->GetFunction("fit")->SetLineColor(1);
+
+  cout << endl;
+  cout << "Binp2 " << endl;
+  func->SetParameters(0.2,1.,1,500);
+  eff2->Fit("fit","","",600,1300);
+  eff2->GetFunction("fit")->SetLineColor(1);
+  //p3 = eff2->GetFunction("fit")->GetParameter(3);
+  //VthrI = (int)p3 + 1;
+  //func->SetParameters(0.2,1,1,500);
+  //eff2->Fit("fit","","",VthrI,1300);
+  //eff2->GetFunction("fit")->SetLineColor(1);
+
+  cout << endl;
+  cout << "Binp3 " << endl;
+  func->SetParameters(0.2,1.,1,500);
+  eff3->Fit("fit","","",600,1400);
+  eff3->GetFunction("fit")->SetLineColor(1);
+  p3 = eff3->GetFunction("fit")->GetParameter(3);
+  VthrI = (int)p3 + 1;
+  cout << "Binp3, VthrI = " << VthrI << endl;
+  func->SetParameters(0.2,1.,1,500);
+  eff3->Fit("fit","","",VthrI,1400);
+  eff3->GetFunction("fit")->SetLineColor(1);
+
+  cout << endl;
+  cout << "Binp4 " << endl;
+  func->SetParameters(0.2,1.,1,1300);
+  eff4->Fit("fit","","",1300,2400);
+  eff4->GetFunction("fit")->SetLineColor(1);
+  p3 = eff4->GetFunction("fit")->GetParameter(3);
+  VthrI = (int)p3 + 1;
+  func->SetParameters(0.2,1.,1,1300);
+  eff4->Fit("fit","","",VthrI,2400);
+  eff4->GetFunction("fit")->SetLineColor(1);
+
 
   TLegend *leg;
   leg = new TLegend(0.1,0.5,0.4,0.8);
