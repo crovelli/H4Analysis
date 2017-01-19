@@ -11,6 +11,7 @@
 
 using namespace std;
 
+/*
 Double_t fitfunc(Double_t *v, Double_t *par) {
 
   Double_t arg = 0;
@@ -24,6 +25,7 @@ Double_t fitfunc(Double_t *v, Double_t *par) {
   
   return fitval;
 }
+*/
 
 void ComputeEfficiency() {
 
@@ -263,9 +265,10 @@ void ComputeEfficiency() {
   eff4->SetMarkerColor(4);
   eff4->SetLineColor(4);
 
+  /*
   // Fitting function
   TF1 *func = new TF1("fit",fitfunc,0.,2500.,4);
-  //func->SetParLimits(1,0,1);
+  func->SetParLimits(1,0,1);
 
   cout << endl;
   cout << "Binp1 " << endl;
@@ -283,11 +286,11 @@ void ComputeEfficiency() {
   func->SetParameters(0.2,1.,1,500);
   eff2->Fit("fit","","",600,1300);
   eff2->GetFunction("fit")->SetLineColor(1);
-  //p3 = eff2->GetFunction("fit")->GetParameter(3);
-  //VthrI = (int)p3 + 1;
-  //func->SetParameters(0.2,1,1,500);
-  //eff2->Fit("fit","","",VthrI,1300);
-  //eff2->GetFunction("fit")->SetLineColor(1);
+  p3 = eff2->GetFunction("fit")->GetParameter(3);
+  VthrI = (int)p3 + 1;
+  func->SetParameters(0.2,1,1,500);
+  eff2->Fit("fit","","",VthrI,1300);
+  eff2->GetFunction("fit")->SetLineColor(1);
 
   cout << endl;
   cout << "Binp3 " << endl;
@@ -311,7 +314,7 @@ void ComputeEfficiency() {
   func->SetParameters(0.2,1.,1,1300);
   eff4->Fit("fit","","",VthrI,2400);
   eff4->GetFunction("fit")->SetLineColor(1);
-
+  */
 
   TLegend *leg;
   leg = new TLegend(0.1,0.5,0.4,0.8);
