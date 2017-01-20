@@ -29,6 +29,14 @@ void ComputeEfficiencyCamAtT9() {
   TTree* h4Mib25_1200 = (TTree*)inFileMib25_1200->Get("h4");
   TTree* h4Mib25_1300 = (TTree*)inFileMib25_1300->Get("h4");
 
+  // pi-ele run
+  TFile* inFileRun4594 = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/t9/t92016_Ele_Pre_B_4594.root");
+  TTree* h4Run4594 = (TTree*)inFileRun4594->Get("h4");
+
+  // comparison pi run
+  TFile* inFileRun4566 = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/t9/t92016_MiB_10m_B_4566.root");
+  TTree* h4Run4566 = (TTree*)inFileRun4566->Get("h4");
+
   // histos
   TH1F* numMib10_1000 = new TH1F("numMib10_1000","",1200,1400.,2600.); 
   TH1F* numMib10_1200 = new TH1F("numMib10_1200","",1200,1400.,2600.); 
@@ -46,7 +54,7 @@ void ComputeEfficiencyCamAtT9() {
 
   
   // denominators
-  TString commonDen = "amp_max[MiB2]>200 && amp_max[Rm2]>200 && fabs(time_max[MiB2])<150 && fabs(time_max[Rm2])<150";
+  TString commonDen = "amp_max[MiB2]>200 && amp_max[Rm2]>200 && fabs(time_max[MiB2])<150 && fabs(time_max[Rm2])<150";  // && amp_max[Cerenkov]<80";
   TString commonDen1000 = commonDen + " && HVAMP==1000";
   TString commonDen1200 = commonDen + " && HVAMP==1200";
   TString commonDen1300 = commonDen + " && HVAMP==1300";
@@ -120,5 +128,38 @@ void ComputeEfficiencyCamAtT9() {
   effMib25_1300->Draw("Plsame"); 
   leg->Draw();
   c1->SaveAs("effMibAll.png");
+
+
+  // Comparison ele vs pions
+  TString commonDenElePi = "amp_max[MiB2]>200 && amp_max[Rm2]>200 && fabs(time_max[MiB2])<150 && fabs(time_max[Rm2])<150 && HVAMP==1200";
+
+  TString denEle = commonDenElePi + " && amp_max[Cerenkov]>80";
+  TString denPi  = commonDenElePi + " && amp_max[Cerenkov]<80";
+  TString numEle = denEle + " && amp_max[M10]>20";
+  TString numPi  = denPi  + " && amp_max[M10]>20";
+
+  TH1F* HdenEle = new TH1F("HdenEle","",1200,1400.,2600.); 
+  TH1F* HdenPi  = new TH1F("HdenPi", "",1200,1400.,2600.); 
+  h4Run4594->Project("HdenEle","HV10-HVAMP",denEle);
+  h4Run4594->Project("HdenPi", "HV10-HVAMP",denPi);
+
+  TH1F* HnumEle = new TH1F("HnumEle","",1200,1400.,2600.); 
+  TH1F* HnumPi  = new TH1F("HnumPi", "",1200,1400.,2600.); 
+  h4Run4594->Project("HnumEle","HV10-HVAMP",numEle);
+  h4Run4594->Project("HnumPi", "HV10-HVAMP",numPi);
+
+  cout << endl;
+  cout << "Run4594: efficiency of electrons = " << HnumEle->Integral()/HdenEle->Integral() << endl;
+  cout << "Run4594: efficiency of pions = "     << HnumPi->Integral()/HdenPi->Integral()   << endl;
+
+
+  // Cross-check on pi run with identical voltage conditions
+  TH1F* HdenPi4566 = new TH1F("HdenPi4566", "",1200,1400.,2600.); 
+  TH1F* HnumPi4566 = new TH1F("HnumPi4566", "",1200,1400.,2600.); 
+  h4Run4566->Project("HdenPi4566", "HV10-HVAMP",denPi);
+  h4Run4566->Project("HnumPi4566", "HV10-HVAMP",numPi);
+  cout << endl;
+  cout << "Run4566: efficiency of pions = " << HnumPi4566->Integral()/HdenPi4566->Integral()   << endl;
+
 }
 	
