@@ -37,7 +37,7 @@ void ComputeEfficiencyH4() {
   TH1F* denMcp4 = new TH1F("denMcp4","",3500,0.,3500.);
 
   // Nominal denominator: selection based on ref-mcp amplitudes and hodo
-  TString commonDen = "amp_max[MiB2]>200 && fabs(time_max[MiB2])<150 && X[0]>-800 && X[1]>-800 && Y[0]>-800 && Y[0]>-800";
+  TString commonDen = "amp_max[MiB2]>200 && fabs(time_max[MiB2])<150 && X[0]>-800 && X[1]>-800 && Y[0]>-800 && Y[1]>-800";
   h4binpSee ->Project("denSee", "HVSEE", commonDen);
   h4binpMcp2->Project("denMcp2","HVZS2", commonDen+" && HVZS2>0");
   h4binpMcp5->Project("denMcp5","HVMiB3",commonDen);
