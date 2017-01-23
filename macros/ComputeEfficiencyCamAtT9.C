@@ -33,7 +33,7 @@ void ComputeEfficiencyCamAtT9() {
   TFile* inFileRun4594 = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/t9/t92016_Ele_Pre_B_4594.root");
   TTree* h4Run4594 = (TTree*)inFileRun4594->Get("h4");
 
-  // comparison pi run
+  // comparison with pi run
   TFile* inFileRun4566 = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/t9/t92016_MiB_10m_B_4566.root");
   TTree* h4Run4566 = (TTree*)inFileRun4566->Get("h4");
 
@@ -54,7 +54,7 @@ void ComputeEfficiencyCamAtT9() {
 
   
   // denominators
-  TString commonDen = "amp_max[MiB2]>200 && amp_max[Rm2]>200 && fabs(time_max[MiB2])<150 && fabs(time_max[Rm2])<150";  // && amp_max[Cerenkov]<80";
+  TString commonDen = "amp_max[MiB2]>200 && amp_max[Rm2]>200 && fabs(time_max[MiB2])<150 && fabs(time_max[Rm2])<150 && amp_max[Cerenkov]<80";
   TString commonDen1000 = commonDen + " && HVAMP==1000";
   TString commonDen1200 = commonDen + " && HVAMP==1200";
   TString commonDen1300 = commonDen + " && HVAMP==1300";
