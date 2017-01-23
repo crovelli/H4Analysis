@@ -60,3 +60,6 @@ xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/Tim
 xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_25m_B_4590.root .
 hadd T9_HVscanMib25mu_mid1200.root t92016_MiB_25m_B_4*root
 rm t92016_MiB_25m_B_4*root
+
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_Ele_Pre_B_4594.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/TimingTB_T9_Summer2016/ntuples/v2/ntuples_v2/t92016_MiB_10m_B_4566.root .
