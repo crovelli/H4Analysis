@@ -10,28 +10,54 @@
 
 using namespace std;
 
+#define isSEE 1
+#define isZS1 0
+#define isZS2 0
+#define isMiB3 0
+
+
 void HodoH4() {
 
   gStyle->SetOptStat(0);
 
+  cout << "iMCP is " << isSEE << " " << isZS1 << " " << isZS2 << " " << isMiB3 << endl;
+
   // inputs
-  //TFile* inFilePlateauScan = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/H4/H4_scan5_SEE.root");
-  //TFile* inFilePlateauScan = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/H4/H4_scan6_MCP2.root");
-  //TFile* inFilePlateauScan = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/H4/H4_scan7_MCP5.root");
-  TFile* inFilePlateauScan = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/H4/H4_scan8_MCP4.root");
+  TFile* inFilePlateauScan;
+  if (isSEE)  inFilePlateauScan = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/H4/H4_scan5_SEE.root");
+  if (isZS2)  inFilePlateauScan = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/H4/H4_scan6_MCP2.root");
+  if (isMiB3) inFilePlateauScan = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/H4/H4_scan7_MCP5.root");
+  if (isZS1)  inFilePlateauScan = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/H4/H4_scan8_MCP4.root");
   TTree* h4PlateauScan  = (TTree*)inFilePlateauScan->Get("h4");
 
   // Selection
-  //TString sden0 = "X[0]>-20 && Y[0]>-20 && run==738";  
-  //TString sden1 = "X[1]>-20 && Y[1]>-20 && run==738";  
-  //TString sden0 = "X[0]>-20 && Y[0]>-20 && run==749";  
-  //TString sden1 = "X[1]>-20 && Y[1]>-20 && run==749";  
-  //TString sden0 = "X[0]>-20 && Y[0]>-20 && run==772";  
-  //TString sden1 = "X[1]>-20 && Y[1]>-20 && run==772";  
-  TString sden0 = "X[0]>-20 && Y[0]>-20 && run==773";  
-  TString sden1 = "X[1]>-20 && Y[1]>-20 && run==773";  
-  TString snum0 = sden0 + " && amp_max[MiB2]>200";  
-  TString snum1 = sden1 + " && amp_max[MiB2]>200";  
+  TString sden0, sden1;
+  TString snum0, snum1;
+  if (isSEE) {
+    sden0 = "X[0]>-20 && Y[0]>-20 && run==738";  
+    sden1 = "X[1]>-20 && Y[1]>-20 && run==738";  
+    snum0 = sden0 + " && amp_max[SEE]>23";  
+    snum1 = sden1 + " && amp_max[SEE]>23";  
+  }
+  if (isZS2) {
+    sden0 = "X[0]>-20 && Y[0]>-20 && run==749";  
+    sden1 = "X[1]>-20 && Y[1]>-20 && run==749";  
+    snum0 = sden0 + " && amp_max[ZS2]>21";  
+    snum1 = sden1 + " && amp_max[ZS2]>21";  
+  }
+  if (isMiB3) {
+    sden0 = "X[0]>-20 && Y[0]>-20 && run==772";  
+    sden1 = "X[1]>-20 && Y[1]>-20 && run==772";
+    snum0 = sden0 + " && amp_max[MiB3]>14.5";  
+    snum1 = sden1 + " && amp_max[MiB3]>14.5";    
+  }
+  if (isZS1) {
+    sden0 = "X[0]>-20 && Y[0]>-20 && run==773";  
+    sden1 = "X[1]>-20 && Y[1]>-20 && run==773";
+    snum0 = sden0 + " && amp_max[ZS1]>23.";  
+    snum1 = sden1 + " && amp_max[ZS1]>23.";    
+  }
+
 
   // Efficiencies
   TH1F *HdenX0 = new TH1F("HdenX0", "HdenX0", 41,-20.5,20.5);  
@@ -101,13 +127,36 @@ void HodoH4() {
 
 
   // 2dim
-  TH2F *Hden2D0 = new TH2F("Hden2D0", "Hden2D0", 41,-20.5,20.5,41,-20.5,20.5);
-  TH2F *Hnum2D0 = new TH2F("Hnum2D0", "Hnum2D0", 41,-20.5,20.5,41,-20.5,20.5);
+  TH2F *Hden2D0 = new TH2F("Hden2D0", "Hden2D0", 25,-15.,10.,20,-10.,10.);
+  TH2F *Hnum2D0 = new TH2F("Hnum2D0", "Hnum2D0", 25,-15.,10.,20,-10.,10.);
   h4PlateauScan->Project("Hden2D0", "Y[0]:X[0]", sden0);
   h4PlateauScan->Project("Hnum2D0", "Y[0]:X[0]", snum0);
 
-  TH2F *Hden2D1 = new TH2F("Hden2D1", "Hden2D1", 41,-20.5,20.5,41,-20.5,20.5);
-  TH2F *Hnum2D1 = new TH2F("Hnum2D1", "Hnum2D1", 41,-20.5,20.5,41,-20.5,20.5);
+  TString sden0c;
+  TString snum0c;
+  if (isSEE) { 
+    sden0c = sden0 + " && X[0]>=-9 && X[0]<=-1 && Y[0]>=-1 && Y[0]<=5";
+    snum0c = snum0 + " && X[0]>=-9 && X[0]<=-1 && Y[0]>=-1 && Y[0]<=5";
+  }
+  if (isZS1) { 
+    sden0c = sden0 + " && X[0]>=-9 && X[0]<=-1 && Y[0]>=-2 && Y[0]<=4";
+    snum0c = snum0 + " && X[0]>=-9 && X[0]<=-1 && Y[0]>=-2 && Y[0]<=4";
+  }
+  if (isZS2) { 
+    sden0c = sden0 + " && X[0]>=-9 && X[0]<=-1 && Y[0]>=-2 && Y[0]<=4";
+    snum0c = snum0 + " && X[0]>=-9 && X[0]<=-1 && Y[0]>=-2 && Y[0]<=4";
+  }
+  if (isMiB3) { 
+    sden0c = sden0 + " && X[0]>=-9 && X[0]<=-1 && Y[0]>=-2 && Y[0]<=4";
+    snum0c = snum0 + " && X[0]>=-9 && X[0]<=-1 && Y[0]>=-2 && Y[0]<=4";
+  }
+  TH2F *Hden2D0c = new TH2F("Hden2D0c", "Hden2D0c", 25,-15.,10.,20,-10.,10.);
+  TH2F *Hnum2D0c = new TH2F("Hnum2D0c", "Hnum2D0c", 25,-15.,10.,20,-10.,10.);
+  h4PlateauScan->Project("Hden2D0c", "Y[0]:X[0]", sden0c);
+  h4PlateauScan->Project("Hnum2D0c", "Y[0]:X[0]", snum0c);
+
+  TH2F *Hden2D1 = new TH2F("Hden2D1", "Hden2D1", 25,-15.,10.,20,-10.,10.);
+  TH2F *Hnum2D1 = new TH2F("Hnum2D1", "Hnum2D1", 25,-15.,10.,20,-10.,10.);
   h4PlateauScan->Project("Hden2D1", "Y[1]:X[1]", sden1);
   h4PlateauScan->Project("Hnum2D1", "Y[1]:X[1]", snum1);
 
@@ -115,19 +164,31 @@ void HodoH4() {
   eff2D0->GetXaxis()->SetTitle("X - 1st plane");
   eff2D0->GetYaxis()->SetTitle("Y - 1st plane");
   eff2D0->Divide(Hden2D0);
-  eff2D0->SetMinimum(0.9);
+  eff2D0->SetMinimum(0.);
+
+  TH2F *eff2D0c = (TH2F*)Hnum2D0c->Clone();
+  eff2D0c->GetXaxis()->SetTitle("X - 1st plane");
+  eff2D0c->GetYaxis()->SetTitle("Y - 1st plane");
+  eff2D0c->Divide(Hden2D0c);
+  eff2D0c->SetMinimum(0.);
 
   TH2F *eff2D1 = (TH2F*)Hnum2D1->Clone();
   eff2D1->GetXaxis()->SetTitle("X - 2nd plane");
   eff2D1->GetYaxis()->SetTitle("Y - 2nd plane");
   eff2D1->Divide(Hden2D1);
-  eff2D1->SetMinimum(0.9);
+  eff2D1->SetMinimum(0.);
 
   TCanvas* c2 = new TCanvas("c2","c",1);
   c2->Divide(2,1);
   c2->cd(1); eff2D0->Draw("colz");
   c2->cd(2); eff2D1->Draw("colz");
   c2->SaveAs("Eff2D.png");    
+
+  TCanvas* c2c = new TCanvas("c2c","c",1);
+  c2c->Divide(2,1);
+  c2c->cd(1); eff2D0c->Draw("colz");
+  c2c->cd(2); eff2D1->Draw("colz");
+  c2c->SaveAs("Eff2Dc.png");    
 
 
 }
