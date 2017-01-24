@@ -15,7 +15,7 @@ void ComputeEfficiencyH4() {
 
   gStyle->SetOptStat(0);
 
-  // inputs - here each mcp is in 1st position (for 2corr it is not)
+  // inputs
   TFile* inFileSee  = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/H4/H4_scan5_SEE.root"); 
   TFile* inFileMcp2 = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/H4/H4_scan6_MCP2.root");
   TFile* inFileMcp5 = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/H4/H4_scan7_MCP5.root"); 
@@ -37,17 +37,19 @@ void ComputeEfficiencyH4() {
   TH1F* denMcp4 = new TH1F("denMcp4","",3500,0.,3500.);
 
   // Nominal denominator: selection based on ref-mcp amplitudes and hodo
-  TString commonDen = "amp_max[MiB2]>200 && fabs(time_max[MiB2])<150 && X[0]>-800 && X[1]>-800 && Y[0]>-800 && Y[1]>-800";
-  h4binpSee ->Project("denSee", "HVSEE", commonDen);
-  h4binpMcp2->Project("denMcp2","HVZS2", commonDen+" && HVZS2>0");
-  h4binpMcp5->Project("denMcp5","HVMiB3",commonDen);
-  h4binpMcp4->Project("denMcp4","HVZS1", commonDen);
+  TString commonDen = "amp_max[MiB2]>200 && fabs(time_max[MiB2])<150 && X[1]>-800 && Y[1]>-800";
+  TString commonDenSee    = commonDen + " && X[0]>=-9 && X[0]<=-1 && Y[0]>=-1 && Y[0]<=5";
+  TString commonDenNotSee = commonDen + " && X[0]>=-9 && X[0]<=-1 && Y[0]>=-2 && Y[0]<=4";
+  h4binpSee ->Project("denSee", "HVSEE", commonDenSee);
+  h4binpMcp2->Project("denMcp2","HVZS2", commonDenNotSee);
+  h4binpMcp5->Project("denMcp5","HVMiB3",commonDenNotSee);
+  h4binpMcp4->Project("denMcp4","HVZS1", commonDenNotSee);
 
   // Nominal numerators
-  TString snumSee  = commonDen + " && amp_max[SEE]>20";
-  TString snumMcp2 = commonDen + " && HVZS2>0 && amp_max[ZS2]>20";
-  TString snumMcp5 = commonDen + " && amp_max[MiB3]>20";
-  TString snumMcp4 = commonDen + " && amp_max[ZS1]>20";
+  TString snumSee  = commonDenSee + " && amp_max[SEE]>23";
+  TString snumMcp2 = commonDenNotSee + " && HVZS2>0 && amp_max[ZS2]>21.";
+  TString snumMcp5 = commonDenNotSee + " && amp_max[MiB3]>14.5";
+  TString snumMcp4 = commonDenNotSee + " && amp_max[ZS1]>23";
   h4binpSee ->Project("numSee", "HVSEE", snumSee);
   h4binpMcp2->Project("numMcp2","HVZS2", snumMcp2);
   h4binpMcp5->Project("numMcp5","HVMiB3",snumMcp5);
@@ -56,7 +58,8 @@ void ComputeEfficiencyH4() {
   cout << endl;
   cout << "-------------------------------------" << endl;
   cout << "check chiara: nominal " << endl;
-  cout << "den = " << commonDen << endl;
+  cout << "denSee = " << commonDenSee << endl;
+  cout << "denNotSee = " << commonDenNotSee << endl;
   cout << "numSee  = " << snumSee  << endl;
   cout << "numMcp2 = " << snumMcp2 << endl;
   cout << "numMcp5 = " << snumMcp5 << endl;
