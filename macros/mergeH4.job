@@ -1,0 +1,57 @@
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan5_738.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan5_739.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan5_740.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan5_741.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan5_742.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan5_743.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan5_744.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan5_745.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan5_746.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan5_747.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan5_748.root .
+hadd H4_scan5_SEE.root h42014_50GeV_scan5*root 
+rm h42014_50GeV_scan5*root
+
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan6_749.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan6_750.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan6_751.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan6_752.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan6_753.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan6_754.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan6_755.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan6_756.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan6_757.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan6_758.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan6_759.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan6_760.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan6_761.root .
+hadd H4_scan6_MCP2.root h42014_50GeV_scan6*root
+rm h42014_50GeV_scan6*root
+
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan7_762.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan7_763.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan7_764.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan7_765.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan7_766.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan7_767.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan7_768.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan7_769.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan7_770.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan7_771.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan7_772.root .
+hadd H4_scan7_MCP5.root h42014_50GeV_scan7*root
+rm h42014_50GeV_scan7*root
+
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan8_773.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan8_774.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan8_775.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan8_776.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan8_777.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan8_778.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan8_779.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan8_780.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan8_781.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan8_782.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_scan8_783.root .
+hadd H4_scan8_MCP4.root h42014_50GeV_scan8*root
+rm h42014_50GeV_scan8*root
