@@ -38,32 +38,39 @@ void ComputeEfficiencyH4() {
 
   // Nominal denominator: selection based on ref-mcp amplitudes and hodo
   TString commonDen = "amp_max[MiB2]>200 && fabs(time_max[MiB2])<150 && X[1]>-800 && Y[1]>-800";
-  TString commonDenSee    = commonDen + " && X[0]>=-9 && X[0]<=-1 && Y[0]>=-1 && Y[0]<=5";
-  TString commonDenNotSee = commonDen + " && X[0]>=-9 && X[0]<=-1 && Y[0]>=-2 && Y[0]<=4";
-  h4binpSee ->Project("denSee", "HVSEE", commonDenSee);
-  h4binpMcp2->Project("denMcp2","HVZS2", commonDenNotSee);
-  h4binpMcp5->Project("denMcp5","HVMiB3",commonDenNotSee);
-  h4binpMcp4->Project("denMcp4","HVZS1", commonDenNotSee);
+  TString sdenSee    = commonDen + " && X[0]>=-9 && X[0]<=-1 && Y[0]>=-1 && Y[0]<=5 && !( amp_max[SEE]>25 && amp_max[SEE]<55 && (charge_sig[SEE]/charge_tot[SEE])<0.05)";
+  TString sdenZS1    = commonDen + " && X[0]>=-9 && X[0]<=-1 && Y[0]>=-2 && Y[0]<=4 && !( amp_max[ZS1]>25 && amp_max[ZS1]<55 && (charge_sig[ZS1]/charge_tot[ZS1])<0.05)";
+  TString sdenZS2    = commonDen + " && X[0]>=-9 && X[0]<=-1 && Y[0]>=-2 && Y[0]<=4 && !( amp_max[ZS2]>25 && amp_max[ZS2]<55 && (charge_sig[ZS2]/charge_tot[ZS2])<0.05)";
+  TString sdenMiB3   = commonDen + " && X[0]>=-9 && X[0]<=-1 && Y[0]>=-2 && Y[0]<=4 && !( amp_max[MiB3]>25 && amp_max[MiB3]<55 && (charge_sig[MiB3]/charge_tot[MiB3])<0.05)";
+  h4binpSee ->Project("denSee", "HVSEE", sdenSee);
+  h4binpMcp2->Project("denMcp2","HVZS2", sdenZS2);
+  h4binpMcp5->Project("denMcp5","HVMiB3",sdenMiB3);
+  h4binpMcp4->Project("denMcp4","HVZS1", sdenZS1);
 
   // Nominal numerators
-  TString snumSee  = commonDenSee + " && amp_max[SEE]>23";
-  TString snumMcp2 = commonDenNotSee + " && HVZS2>0 && amp_max[ZS2]>21.";
-  TString snumMcp5 = commonDenNotSee + " && amp_max[MiB3]>14.5";
-  TString snumMcp4 = commonDenNotSee + " && amp_max[ZS1]>23";
+  TString snumSee  = sdenSee  + " && amp_max[SEE]>23";
+  TString snumZS1  = sdenZS1  + " && amp_max[ZS1]>23";
+  TString snumZS2  = sdenZS2  + " && amp_max[ZS2]>21.";
+  TString snumMiB3 = sdenMiB3 + " && amp_max[MiB3]>14.5";
   h4binpSee ->Project("numSee", "HVSEE", snumSee);
-  h4binpMcp2->Project("numMcp2","HVZS2", snumMcp2);
-  h4binpMcp5->Project("numMcp5","HVMiB3",snumMcp5);
-  h4binpMcp4->Project("numMcp4","HVZS1", snumMcp4);
+  h4binpMcp2->Project("numMcp2","HVZS2", snumZS2);
+  h4binpMcp5->Project("numMcp5","HVMiB3",snumMiB3);
+  h4binpMcp4->Project("numMcp4","HVZS1", snumZS1);
 
   cout << endl;
   cout << "-------------------------------------" << endl;
   cout << "check chiara: nominal " << endl;
-  cout << "denSee = " << commonDenSee << endl;
-  cout << "denNotSee = " << commonDenNotSee << endl;
-  cout << "numSee  = " << snumSee  << endl;
-  cout << "numMcp2 = " << snumMcp2 << endl;
-  cout << "numMcp5 = " << snumMcp5 << endl;
-  cout << "numMcp4 = " << snumMcp4 << endl;
+  cout << "denSee = " << sdenSee << endl;
+  cout << "numSee = " << snumSee  << endl;
+  cout << endl;
+  cout << "denZS1 = " << sdenZS1 << endl;
+  cout << "numZS1 = " << snumZS1  << endl;
+  cout << endl;
+  cout << "denZS2 = " << sdenZS2 << endl;
+  cout << "numZS2 = " << snumZS2  << endl;
+  cout << endl;
+  cout << "denMiB3 = " << sdenMiB3 << endl;
+  cout << "numMiB3 = " << snumMiB3  << endl;
   cout << "-------------------------------------" << endl;
   cout << endl;
   cout << endl;
