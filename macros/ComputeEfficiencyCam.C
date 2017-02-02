@@ -103,23 +103,23 @@ void ComputeEfficiencyCam() {
   h4Mib10_700 ->Project("numMib10_700", "HV10-HVAMP",snumMib10_700); 
   h4Mib10_1000->Project("numMib10_1000","HV10-HVAMP",snumMib10_1000); 
 
-  TString snumMib25_700  = commonDen700  + " && amp_max[M25]>20";
-  TString snumMib25_1000 = commonDen1000 + " && amp_max[M25]>20";
-  TString snumMib25_1200 = commonDen1200 + " && amp_max[M25]>20";
+  TString snumMib25_700  = commonDen700  + " && amp_max[M25]>17";
+  TString snumMib25_1000 = commonDen1000 + " && amp_max[M25]>17";
+  TString snumMib25_1200 = commonDen1200 + " && amp_max[M25]>17";
   h4Mib25_700 ->Project("numMib25_700", "HV25-HVAMP",snumMib25_700); 
   h4Mib25_1000->Project("numMib25_1000","HV25-HVAMP",snumMib25_1000); 
   h4Mib25_1200->Project("numMib25_1200","HV25-HVAMP",snumMib25_1200); 
 
-  TString snumRm5_700  = commonDen700  + " && amp_max[M5]>20";  
-  TString snumRm5_1000 = commonDen1000 + " && amp_max[M5]>20";
-  TString snumRm5_1200 = commonDen1200 + " && amp_max[M5]>20";
+  TString snumRm5_700  = commonDen700  + " && amp_max[M5]>21"; 
+  TString snumRm5_1000 = commonDen1000 + " && amp_max[M5]>21";
+  TString snumRm5_1200 = commonDen1200 + " && amp_max[M5]>21";
   h4Rm5_700 ->Project("numRm5_700", "HV5-HVAMP",snumRm5_700);    
   h4Rm5_1000->Project("numRm5_1000","HV5-HVAMP",snumRm5_1000); 
   h4Rm5_1200->Project("numRm5_1200","HV5-HVAMP",snumRm5_1200); 
 
-  TString snumRm8_700  = commonDen700  + " && amp_max[M8]>20";  
-  TString snumRm8_1000 = commonDen1000 + " && amp_max[M8]>20";
-  TString snumRm8_1200 = commonDen1200 + " && amp_max[M8]>20";
+  TString snumRm8_700  = commonDen700  + " && amp_max[M8]>16";
+  TString snumRm8_1000 = commonDen1000 + " && amp_max[M8]>16";
+  TString snumRm8_1200 = commonDen1200 + " && amp_max[M8]>16";
   h4Rm8_700 ->Project("numRm8_700", "HV8-HVAMP",snumRm8_700);    
   h4Rm8_1000->Project("numRm8_1000","HV8-HVAMP",snumRm8_1000); 
   h4Rm8_1200->Project("numRm8_1200","HV8-HVAMP",snumRm8_1200); 
