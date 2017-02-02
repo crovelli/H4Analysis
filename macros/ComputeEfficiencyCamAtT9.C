@@ -67,14 +67,14 @@ void ComputeEfficiencyCamAtT9() {
   h4Mib25_1300->Project("denMib25_1300","HV25-HVAMP",commonDen1300);
 
   // numerators
-  TString snumMib10_1000 = commonDen1000 + " && amp_max[M10]>20";
-  TString snumMib10_1200 = commonDen1200 + " && amp_max[M10]>20";
+  TString snumMib10_1000 = commonDen1000 + " && amp_max[M10]>17";
+  TString snumMib10_1200 = commonDen1200 + " && amp_max[M10]>17";
   h4Mib10_1000->Project("numMib10_1000","HV10-HVAMP",snumMib10_1000); 
   h4Mib10_1200->Project("numMib10_1200","HV10-HVAMP",snumMib10_1200); 
 
-  TString snumMib25_1000 = commonDen1000 + " && amp_max[M25]>20";
-  TString snumMib25_1200 = commonDen1200 + " && amp_max[M25]>20";
-  TString snumMib25_1300 = commonDen1300 + " && amp_max[M25]>20";
+  TString snumMib25_1000 = commonDen1000 + " && amp_max[M25]>17";
+  TString snumMib25_1200 = commonDen1200 + " && amp_max[M25]>17";
+  TString snumMib25_1300 = commonDen1300 + " && amp_max[M25]>17";
   h4Mib25_1000->Project("numMib25_1000","HV25-HVAMP",snumMib25_1000); 
   h4Mib25_1200->Project("numMib25_1200","HV25-HVAMP",snumMib25_1200); 
   h4Mib25_1300->Project("numMib25_1300","HV25-HVAMP",snumMib25_1300); 
@@ -135,8 +135,8 @@ void ComputeEfficiencyCamAtT9() {
 
   TString denEle = commonDenElePi + " && amp_max[Cerenkov]>80";
   TString denPi  = commonDenElePi + " && amp_max[Cerenkov]<80";
-  TString numEle = denEle + " && amp_max[M10]>20";
-  TString numPi  = denPi  + " && amp_max[M10]>20";
+  TString numEle = denEle + " && amp_max[M10]>17";
+  TString numPi  = denPi  + " && amp_max[M10]>17";
 
   TH1F* HdenEle = new TH1F("HdenEle","",1200,1400.,2600.); 
   TH1F* HdenPi  = new TH1F("HdenPi", "",1200,1400.,2600.); 
