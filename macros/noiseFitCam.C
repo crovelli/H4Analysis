@@ -48,10 +48,7 @@ void noiseFitCam() {
   if (mcp==9) T1->Project("histo", "amp_max[M5]",   "HVAMP==700  && HV5==2300 && adc_data<150");
 
   TF1 *gausa = new TF1 ("gausa","[0]*exp(-1*(x-[1])*(x-[1])/2/[2]/[2])");
-  if (mcp<5)
-    histo->Fit("gausa");
-  else
-  histo->Fit("gausa","","",0.,20.);
+  histo->Fit("gausa");
 
   // Fit initialization
   int peakBin   = histo->GetMaximumBin();
