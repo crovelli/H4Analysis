@@ -175,6 +175,43 @@ void ComputeEfficiencyCam() {
   effRm8_1200->SetLineColor(7);
 
 
+  // Rescaling for pi/ele ratio
+  // Eff on electrons = 0.933
+  // Eff on pions     = 0.862
+  // Multiplicity: eff(n) = 1 - (1-eff1)^n ==> n = ln(1.-effPi-deltaEff) / ln(1-effPi)
+  // Correction factor ==> eff(1part) = 1 - pow( (1-effEle), (1/n) );
+  float myN = log(1.-0.862-(0.933-0.862)) / log(1-0.862);
+
+  TGraphAsymmErrors* effMib25Corr_1200 = new TGraphAsymmErrors(numMib25_1200,denMib25_1200);
+  effMib25Corr_1200->SetMarkerStyle(20);
+  effMib25Corr_1200->SetMarkerColor(1);
+  effMib25Corr_1200->SetLineColor(1);
+  int N_effMib25Corr_1200 = effMib25Corr_1200->GetN();
+  for (int ii = 0; ii<N_effMib25Corr_1200; ii++ ) {
+    float thisValue = effMib25Corr_1200->GetY()[ii];
+    float theCorr   = 1 - pow( (1-thisValue), (1/myN) );  
+    if (effMib25Corr_1200->GetY()[ii]>0) effMib25Corr_1200->GetY()[ii] *= theCorr/thisValue; 
+  }
+
+  TGraphAsymmErrors* effRm8Corr_1200 = new TGraphAsymmErrors(numRm8_1200,denRm8_1200);
+  effRm8Corr_1200->SetMarkerStyle(20);
+  effRm8Corr_1200->SetMarkerColor(1);
+  effRm8Corr_1200->SetLineColor(1);
+  int N_effRm8Corr_1200 = effRm8Corr_1200->GetN();
+  for (int ii = 0; ii<N_effRm8Corr_1200; ii++ ) {
+    float thisValue = effRm8Corr_1200->GetY()[ii];
+    float theCorr   = 1 - pow( (1-thisValue), (1/myN) );  
+    if (effRm8Corr_1200->GetY()[ii]>0) effRm8Corr_1200->GetY()[ii] *= theCorr/thisValue; 
+  }
+  
+  TFile myOutputFile("myOutputFileCameroniBtf.root", "RECREATE");
+  myOutputFile.cd();
+  effMib25_1200->Write("effMib25_1200");
+  effMib25Corr_1200->Write("effMib25Corr_1200");
+  effRm8_1200->Write("effRm8_1200");
+  effRm8Corr_1200->Write("effRm8Corr_1200");
+  myOutputFile.Close();
+
   TH2F* H2 = new TH2F("H2","",2600,700.,3300.,100,0.,1.);
   H2->GetXaxis()->SetTitle("HV - HVMID [V]");
   H2->GetYaxis()->SetTitle("Efficiency");
@@ -260,6 +297,13 @@ void ComputeEfficiencyCam() {
   legB->Draw();
   c2->SaveAs("effMib25.png");
 
+  TCanvas* cc2 = new TCanvas("cc2","c",1);
+  cc2->SetGrid();
+  H2->Draw();
+  effMib25_1200->Draw("Plsame"); 
+  effMib25Corr_1200->Draw("Plsame"); 
+  cc2->SaveAs("effMib25_prePostMultipCorr.png");
+
   TCanvas* c3 = new TCanvas("c3","c",1);
   c3->SetGrid();
   H2->Draw();
@@ -279,6 +323,13 @@ void ComputeEfficiencyCam() {
   effRm8_1200->Draw("Plsame"); 
   legA2->Draw();
   c2a->SaveAs("effRm8.png");
+
+  TCanvas* cc2a = new TCanvas("cc2a","c",1);
+  cc2a->SetGrid();
+  H2->Draw();
+  effRm8_1200->Draw("Plsame"); 
+  effRm8Corr_1200->Draw("Plsame"); 
+  cc2a->SaveAs("effRm8_prePostMultipCorr.png");
 
   TCanvas* c2b = new TCanvas("c2b","c",1);
   c2b->SetGrid();
