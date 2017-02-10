@@ -253,8 +253,8 @@ void ComputeEfficiency() {
   TGraphAsymmErrors* eff3 = new TGraphAsymmErrors(num3,den3);
   TGraphAsymmErrors* eff4 = new TGraphAsymmErrors(num4,den4);
   eff1->SetMarkerStyle(20);
-  eff1->SetMarkerColor(6);
-  eff1->SetLineColor(6);
+  eff1->SetMarkerColor(1);
+  eff1->SetLineColor(1);
   eff2->SetMarkerStyle(21);
   eff2->SetMarkerColor(2);
   eff2->SetLineColor(2);
@@ -341,6 +341,13 @@ void ComputeEfficiency() {
   c1c->SaveAs("eff_binp2corr.png");
   c1c->SaveAs("eff_binp2corr.pdf");
   
+  TFile myOutputF("myOutputFileBinps.root","RECREATE");
+  myOutputF.cd();
+  eff1->Write("binp1");
+  eff2->Write("binp2");
+  eff3->Write("binp3");
+  eff4->Write("binp4");
+  myOutputF.Close();
   
   // Efficiencies with additional timing infos
   cout << endl;
