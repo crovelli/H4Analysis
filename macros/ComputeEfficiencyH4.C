@@ -93,6 +93,41 @@ void ComputeEfficiencyH4() {
   effMcp4->SetMarkerColor(4);
   effMcp4->SetLineColor(4);
 
+  // Rescaling for voltage partitor
+  TGraphAsymmErrors* effMcp2Corr = new TGraphAsymmErrors(numMcp2,denMcp2);
+  effMcp2Corr->SetMarkerStyle(20);
+  effMcp2Corr->SetMarkerColor(2);
+  effMcp2Corr->SetLineColor(2);
+  int N_effMcp2Corr = effMcp2Corr->GetN();
+  for (int ii = 0; ii<N_effMcp2Corr; ii++ ) {
+    float thisValue = effMcp2Corr->GetX()[ii];
+    float theCorr   = 10./11.;
+    if (effMcp2Corr->GetX()[ii]>0) effMcp2Corr->GetX()[ii] *= theCorr;
+  }
+
+  TGraphAsymmErrors* effMcp5Corr = new TGraphAsymmErrors(numMcp5,denMcp5);
+  effMcp5Corr->SetMarkerStyle(20);
+  effMcp5Corr->SetMarkerColor(3);
+  effMcp5Corr->SetLineColor(3);
+  int N_effMcp5Corr = effMcp5Corr->GetN();
+  for (int ii = 0; ii<N_effMcp5Corr; ii++ ) {
+    float thisValue = effMcp5Corr->GetX()[ii];
+    float theCorr   = 10./11.;
+    cout << "pre: " << effMcp5Corr->GetX()[ii] << endl;
+    if (effMcp5Corr->GetX()[ii]>0) effMcp5Corr->GetX()[ii] *= theCorr;
+    cout << "post: " << effMcp5Corr->GetX()[ii] << endl;
+  }
+
+  TFile myOutputFile("myOutputFileH4.root", "RECREATE");
+  myOutputFile.cd();
+  effSee ->Write("effSee");
+  effMcp2->Write("effZS2");
+  effMcp5->Write("effMib3");
+  effMcp4->Write("effZS1");
+  effMcp2Corr->Write("effZS2Corr");
+  effMcp5Corr->Write("effMib3Corr");
+  myOutputFile.Close();
+
   TLegend *leg;
   leg = new TLegend(0.1,0.5,0.4,0.8);
   leg->SetFillStyle(0);
@@ -117,5 +152,14 @@ void ComputeEfficiencyH4() {
   leg->Draw();
   c1c->SaveAs("effH4.png");
   c1c->SaveAs("effH4.pdf");
+
+  TCanvas* c1d = new TCanvas("c1d","c",1);
+  c1d->SetGrid();
+  H2->Draw();
+  effMcp2->Draw("Plsame"); 
+  effMcp5->Draw("Plsame"); 
+  effMcp2Corr->Draw("Plsame"); 
+  effMcp5Corr->Draw("Plsame"); 
+  c1d->SaveAs("effH4corrHV.png");
 }
 	
