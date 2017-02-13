@@ -6,6 +6,7 @@
 #include "TF1.h" 
 #include "TCanvas.h"
 #include "TLegend.h"
+#include "TGraph.h" 
 #include "TGraphAsymmErrors.h" 
 #include <iostream>
 
@@ -25,6 +26,11 @@ void ComputeEfficiencyH4() {
   TTree* h4binpMcp2 = (TTree*)inFileMcp2->Get("h4");
   TTree* h4binpMcp5 = (TTree*)inFileMcp5->Get("h4");
   TTree* h4binpMcp4 = (TTree*)inFileMcp4->Get("h4");
+
+  // input absorber scan     
+  TFile *inFileXo = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/H4/H4_absScan1.root");
+  TTree* h4Absorb = (TTree*)inFileXo->Get("h4");
+
 
   // ----------------------------------------
   TH1F* numSee  = new TH1F("numSee", "",3500,0.,3500.);
@@ -161,5 +167,93 @@ void ComputeEfficiencyH4() {
   effMcp2Corr->Draw("Plsame"); 
   effMcp5Corr->Draw("Plsame"); 
   c1d->SaveAs("effH4corrHV.png");
+
+
+  // ----------------------------------------------------------------------------------
+
+  // Efficiency vs absorber length
+  float numZS2[6], numMiB3[6];
+  float denZS2[6], denMiB3[6];
+  
+  // denominator
+  for (int ii=0; ii<6; ii++) {
+    TH1F* denAbsZS2 = new TH1F("denAbsZS2", "",6,-0.5,5.5);
+    if (ii==0) h4binpMcp2->Project("denAbsZS2","0", sdenZS2+" && HVZS2==3300");
+    if (ii==1) h4Absorb  ->Project("denAbsZS2","1", sdenZS2+" && run==790");
+    if (ii==2) h4Absorb  ->Project("denAbsZS2","2", sdenZS2+" && run==794");
+    if (ii==3) h4Absorb  ->Project("denAbsZS2","3", sdenZS2+" && run==795");
+    if (ii==4) h4Absorb  ->Project("denAbsZS2","4", sdenZS2+" && run==797");
+    if (ii==5) h4Absorb  ->Project("denAbsZS2","5", sdenZS2+" && run==799");
+    denZS2[ii] = denAbsZS2->Integral();
+    delete denAbsZS2;
+
+    TH1F* numAbsZS2 = new TH1F("numAbsZS2", "",6,-0.5,5.5);
+    if (ii==0) h4binpMcp2->Project("numAbsZS2","0", snumZS2+" && HVZS2==3300");
+    if (ii==1) h4Absorb  ->Project("numAbsZS2","1", snumZS2+" && run==790");
+    if (ii==2) h4Absorb  ->Project("numAbsZS2","2", snumZS2+" && run==794");
+    if (ii==3) h4Absorb  ->Project("numAbsZS2","3", snumZS2+" && run==795");
+    if (ii==4) h4Absorb  ->Project("numAbsZS2","4", snumZS2+" && run==797");
+    if (ii==5) h4Absorb  ->Project("numAbsZS2","5", snumZS2+" && run==799");
+    numZS2[ii] = numAbsZS2->Integral();
+    delete numAbsZS2;
+
+    TH1F* denAbsMiB3 = new TH1F("denAbsMiB3", "",6,-0.5,5.5);
+    if (ii==0) h4binpMcp5->Project("denAbsMiB3","0", sdenMiB3+" && HVMiB3==3300");
+    if (ii==1) h4Absorb  ->Project("denAbsMiB3","1", sdenMiB3+" && run==790");
+    if (ii==2) h4Absorb  ->Project("denAbsMiB3","2", sdenMiB3+" && run==794");
+    if (ii==3) h4Absorb  ->Project("denAbsMiB3","3", sdenMiB3+" && run==795");
+    if (ii==4) h4Absorb  ->Project("denAbsMiB3","4", sdenMiB3+" && run==797");
+    if (ii==5) h4Absorb  ->Project("denAbsMiB3","5", sdenMiB3+" && run==799");
+    denMiB3[ii] = denAbsMiB3->Integral();
+    delete denAbsMiB3;
+
+    TH1F* numAbsMiB3 = new TH1F("numAbsMiB3", "",6,-0.5,5.5);
+    if (ii==0) h4binpMcp5->Project("numAbsMiB3","0", snumMiB3+" && HVMiB3==3300");
+    if (ii==1) h4Absorb  ->Project("numAbsMiB3","1", snumMiB3+" && run==790");
+    if (ii==2) h4Absorb  ->Project("numAbsMiB3","2", snumMiB3+" && run==794");
+    if (ii==3) h4Absorb  ->Project("numAbsMiB3","3", snumMiB3+" && run==795");
+    if (ii==4) h4Absorb  ->Project("numAbsMiB3","4", snumMiB3+" && run==797");
+    if (ii==5) h4Absorb  ->Project("numAbsMiB3","5", snumMiB3+" && run==799");
+    numMiB3[ii] = numAbsMiB3->Integral();
+    delete numAbsMiB3;
+  }
+
+  // efficiencies
+  float xaxis[6];
+  float effAbsZS2[6], effAbsMiB3[6];
+  for (int ii=0; ii<6; ii++) {
+    effAbsZS2[ii]  = numZS2[ii]/denZS2[ii];
+    effAbsMiB3[ii] = numMiB3[ii]/denMiB3[ii];
+    xaxis[ii] = (float)ii;
+  }
+  TGraph* effAbsZS2G  = new TGraph(6,xaxis,effAbsZS2);
+  TGraph* effAbsMiB3G = new TGraph(6,xaxis,effAbsMiB3);
+  effAbsZS2G->SetMarkerStyle(20);
+  effAbsZS2G->SetMarkerColor(1);
+  effAbsZS2G->SetLineColor(1);
+  effAbsMiB3G->SetMarkerStyle(21);
+  effAbsMiB3G->SetMarkerColor(2);
+  effAbsMiB3G->SetLineColor(2);
+
+  TLegend *leg2;
+  leg2 = new TLegend(0.7,0.1,0.9,0.3);
+  leg2->SetFillStyle(0);
+  leg2->SetBorderSize(0);
+  leg2->SetTextSize(0.05);
+  leg2->SetFillColor(0);
+  leg2->AddEntry(effAbsMiB3G, "40x2", "pl");
+  leg2->AddEntry(effAbsZS2G,  "40x3",  "pl");
+
+  TCanvas* c2c = new TCanvas("c2c","c",1);
+  c2c->SetGrid();
+  TH2F* H2b = new TH2F("H2b","",5,0.,5.1,100,0.5,1.);
+  H2b->GetXaxis()->SetTitle("Number of X_{0}");
+  H2b->GetYaxis()->SetTitle("Efficiency");
+  H2b->Draw();
+  effAbsZS2G->Draw("Plsame"); 
+  effAbsMiB3G->Draw("Plsame"); 
+  leg2->Draw();
+  c2c->SaveAs("effH4vsAbs.png");
+  c2c->SaveAs("effH4vsAbs.pdf");
 }
 	
