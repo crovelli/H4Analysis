@@ -62,3 +62,4 @@ xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_
 xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_absScan1_797.root . 
 xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_absScan1_799.root .
 hadd H4_absScan1.root h42014_50GeV_absScan1_*root
+rm h42014_50GeV_absScan1_*root
