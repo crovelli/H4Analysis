@@ -56,9 +56,9 @@ xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_
 hadd H4_scan8_MCP4.root h42014_50GeV_scan8*root
 rm h42014_50GeV_scan8*root
 
-xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_absScan2_637.root .
-xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_absScan2_645.root . 
-xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_absScan2_646.root . 
-xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_absScan2_653.root . 
-xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_absScan2_654.root .
-hadd H4_absScan2.root h42014_50GeV_absScan2_*root
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_absScan1_790.root .
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_absScan1_794.root . 
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_absScan1_795.root . 
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_absScan1_797.root . 
+xrdcp root://eoscms//eos/cms/store/group/dpg_ecal/comm_ecal/upgrade/testbeam/H4_Fall2014/Timing/ntuples/v2/ntuples_v2/h42014_50GeV_absScan1_799.root .
+hadd H4_absScan1.root h42014_50GeV_absScan1_*root
