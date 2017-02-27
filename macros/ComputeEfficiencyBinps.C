@@ -11,41 +11,24 @@
 
 using namespace std;
 
-/*
-Double_t fitfunc(Double_t *v, Double_t *par) {
-
-  Double_t arg = 0;
-  if (par[3] != 0) arg = v[0]/par[3];
-
-  Double_t fitval;
-  if (arg>1)
-    fitval = par[0] + (par[1]*(1.- (1./(par[2]*log(arg)+1))));
-  else
-    fitval = 0;
-  
-  return fitval;
-}
-*/
-
 void ComputeEfficiency() {
 
   gStyle->SetOptStat(0);
 
   // inputs - here each mcp is in 1st position (for 2corr it is not)
-  TFile* inFileBinp1 = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/binps/newRecoWindowV4/btf2016_HVscanBinp1.root");
-  TFile* inFileBinp2 = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/binps/newRecoWindowV4/btf2016_HVscanBinp4.root");   // in btf2016_HVscanBinp2.root binp2 was probably partly off
-  TFile* inFileBinp3 = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/binps/newRecoWindowV4/btf2016_HVscanBinp3.root");
-  TFile* inFileBinp4 = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/binps/newRecoWindowV4/btf2016_HVscanBinp4.root");
-  //
-  TFile* inFileTiming14 = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/binps/newRecoWindowV4/btf2016_RU5_2378.root");
-  TFile* inFileTiming2  = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/binps/newRecoWindowV4/btf2016_RU6_2547.root");  
-  TFile* inFileTiming3  = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/binps/newRecoWindowV4/btf2016_RU4_merged_2363_2366.root");  
-  
+  TFile* inFileBinp1 = new TFile("/cmsrm/pc28_2/bmarzocc/btf2016_HVscanBinp1.root");
+  TFile* inFileBinp2 = new TFile("/cmsrm/pc28_2/bmarzocc/btf2016_HVscanBinp4.root");   // in btf2016_HVscanBinp2.root binp2 was probably partly off
+  TFile* inFileBinp3 = new TFile("/cmsrm/pc28_2/bmarzocc/btf2016_HVscanBinp3.root");
+  TFile* inFileBinp4 = new TFile("/cmsrm/pc28_2/bmarzocc/btf2016_HVscanBinp4.root");
   TTree* h4binp1 = (TTree*)inFileBinp1->Get("h4");
   TTree* h4binp2 = (TTree*)inFileBinp2->Get("h4");
   TTree* h4binp3 = (TTree*)inFileBinp3->Get("h4");
   TTree* h4binp4 = (TTree*)inFileBinp4->Get("h4");
   //
+  // old reco (not fixing spikes in binp4)
+  TFile* inFileTiming14 = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/binps/newRecoWindowV4/btf2016_RU5_2378.root");
+  TFile* inFileTiming2  = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/binps/newRecoWindowV4/btf2016_RU6_2547.root");  
+  TFile* inFileTiming3  = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/binps/newRecoWindowV4/btf2016_RU4_merged_2363_2366.root");  
   TTree* h4timing14 = (TTree*)inFileTiming14->Get("h4");
   TTree* h4timing2  = (TTree*)inFileTiming2->Get("h4");
   TTree* h4timing3  = (TTree*)inFileTiming3->Get("h4");
@@ -74,8 +57,6 @@ void ComputeEfficiency() {
   TH1F* den2b = new TH1F("den2b","",2500,0.,2500.);
   TH1F* den3b = new TH1F("den3b","",2500,0.,2500.);
   TH1F* den4b = new TH1F("den4b","",2500,0.,2500.);
-
-
 
   // Nominal denominator: selection based on ref-mcp amplitudes and scintillators
   TString commonDenAmp = "adc_data>200 && adc_data<700 && n_hitsX>0 && n_hitsY>0 && n_hitsX<3 && n_hitsY<3 && amp_max[MiB2]>200 && fabs(time_max[MiB2])<150";
@@ -199,20 +180,24 @@ void ComputeEfficiency() {
 
 
   // Nominal numerators
-  TString snum1 = den1s + " && amp_max[BINP1]>20";
-  TString snum2 = den2s + " && amp_max[BINP2]>20";
-  TString snum3 = den3s + " && amp_max[BINP3]>20";
-  TString snum4 = den4s + " && amp_max[BINP4]>20";
+  TString snum1 = den1s + " && amp_max[BINP1]>15";
+  TString snum2 = den2s + " && amp_max[BINP2]>13";
+  TString snum3 = den3s + " && amp_max[BINP3]>13";
+  TString snum4 = den4s + " && amp_max[BINP4]>14";
+
+  // trigeref sample - to remove spikes on binp4 
+  snum4 = snum4 + " && ((run == 2352 && fabs(time[MiB2]-time[BINP4]-2.316)<10.) || (run == 2353 && fabs(time[MiB2]-time[BINP4]-3.366)<10.) || (run == 2354 && fabs(time[MiB2]-time[BINP4]-2.520)<10.) || (run == 2355 && fabs(time[MiB2]-time[BINP4]-2.743)<10.) || (run == 2356 && fabs(time[MiB2]-time[BINP4]-2.884)<10.) || (run == 2357 && fabs(time[MiB2]-time[BINP4]-2.797)<10.) || (run == 2358 && fabs(time[MiB2]-time[BINP4]-2.886)<10.) || (run == 2359 && fabs(time[MiB2]-time[BINP4]-3.084)<10.) || (run == 2360 && fabs(time[MiB2]-time[BINP4]-2.885)<10.) || (run == 2361 && fabs(time[MiB2]-time[BINP4]-3.428)<10.) || (run == 2362 && fabs(time[MiB2]-time[BINP4]-3.648)<10.))";
+
   h4binp1->Project("num1","HVBINP1",snum1); 
   h4binp2->Project("num2","HVBINP2",snum2); 
   h4binp3->Project("num3","HVBINP3",snum3); 
   h4binp4->Project("num4","HVBINP4",snum4); 
 
   // Numerators with timing infos - to be quoted only
-  TString snum1b = numAmpTim1       + " && amp_max[BINP1]>20";
-  TString snum2b = numAndRm2AmpTim2 + " && amp_max[BINP2]>20";
-  TString snum3b = numAndRm2AmpTim3 + " && amp_max[BINP3]>20";
-  TString snum4b = numAndRm2AmpTim4 + " && amp_max[BINP4]>20";
+  TString snum1b = numAmpTim1       + " && amp_max[BINP1]>15";
+  TString snum2b = numAndRm2AmpTim2 + " && amp_max[BINP2]>13";
+  TString snum3b = numAndRm2AmpTim3 + " && amp_max[BINP3]>13";
+  TString snum4b = numAndRm2AmpTim4 + " && amp_max[BINP4]>14";
   h4binp1->Project("num1b","HVBINP1",snum1b); 
   h4binp2->Project("num2b","HVBINP2",snum2b); 
   h4binp3->Project("num3b","HVBINP3",snum3b); 
@@ -516,4 +501,4 @@ void ComputeEfficiency() {
   c2a->SaveAs("amplitude_timingRuns.pdf");
 
 }
-	
+
