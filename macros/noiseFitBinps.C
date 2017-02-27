@@ -20,10 +20,10 @@ void noiseFitBinps() {
   gStyle->SetOptFile(1); 
   
   TFile *file;
-  if (mcp==1) file = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/binps/newRecoWindowV4/btf2016_HVscanBinp1.root");
-  if (mcp==2) file = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/binps/newRecoWindowV4/btf2016_HVscanBinp4.root");
-  if (mcp==3) file = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/binps/newRecoWindowV4/btf2016_HVscanBinp3.root");
-  if (mcp==4) file = new TFile("/cmsrm/pc28_2/crovelli/data/imcp/binps/newRecoWindowV4/btf2016_HVscanBinp4.root");
+  if (mcp==1) file = new TFile("/cmsrm/pc28_2/bmarzocc/btf2016_HVscanBinp1.root");
+  if (mcp==2) file = new TFile("/cmsrm/pc28_2/bmarzocc/btf2016_HVscanBinp4.root");
+  if (mcp==3) file = new TFile("/cmsrm/pc28_2/bmarzocc/btf2016_HVscanBinp3.root");
+  if (mcp==4) file = new TFile("/cmsrm/pc28_2/bmarzocc/btf2016_HVscanBinp4.root");
 
   TTree *T1 = (TTree*)file->Get("h4");
   
