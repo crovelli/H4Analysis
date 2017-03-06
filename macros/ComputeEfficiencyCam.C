@@ -203,6 +203,17 @@ void ComputeEfficiencyCam() {
     float theCorr   = 1 - pow( (1-thisValue), (1/myN) );  
     if (effRm8Corr_1200->GetY()[ii]>0) effRm8Corr_1200->GetY()[ii] *= theCorr/thisValue; 
   }
+
+  TGraphAsymmErrors* effRm5Corr_1200 = new TGraphAsymmErrors(numRm5_1200,denRm5_1200);
+  effRm5Corr_1200->SetMarkerStyle(20);
+  effRm5Corr_1200->SetMarkerColor(1);
+  effRm5Corr_1200->SetLineColor(1);
+  int N_effRm5Corr_1200 = effRm5Corr_1200->GetN();
+  for (int ii = 0; ii<N_effRm5Corr_1200; ii++ ) {
+    float thisValue = effRm5Corr_1200->GetY()[ii];
+    float theCorr   = 1 - pow( (1-thisValue), (1/myN) );  
+    if (effRm5Corr_1200->GetY()[ii]>0) effRm5Corr_1200->GetY()[ii] *= theCorr/thisValue; 
+  }
   
   TFile myOutputFile("myOutputFileCameroniBtf.root", "RECREATE");
   myOutputFile.cd();
@@ -210,6 +221,8 @@ void ComputeEfficiencyCam() {
   effMib25Corr_1200->Write("effMib25Corr_1200");
   effRm8_1200->Write("effRm8_1200");
   effRm8Corr_1200->Write("effRm8Corr_1200");
+  effRm5_1200->Write("effRm5_1200");
+  effRm5Corr_1200->Write("effRm5Corr_1200");
   myOutputFile.Close();
 
   TH2F* H2 = new TH2F("H2","",2600,700.,3300.,100,0.,1.);
@@ -339,6 +352,13 @@ void ComputeEfficiencyCam() {
   effRm5_1200->Draw("Plsame"); 
   legB2->Draw();
   c2b->SaveAs("effRm5.png");
+
+  TCanvas* cc2b = new TCanvas("cc2b","c",1);
+  cc2b->SetGrid();
+  H2->Draw();
+  effRm5_1200->Draw("Plsame"); 
+  effRm5Corr_1200->Draw("Plsame"); 
+  cc2b->SaveAs("effRm5_prePostMultipCorr.png");
 
   TCanvas* c3b = new TCanvas("c3b","c",1);
   c3b->SetGrid();
